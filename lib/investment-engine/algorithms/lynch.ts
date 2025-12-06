@@ -16,6 +16,15 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
       target_price: null,
       sell_price: null,
       logic: 'Insufficient data for growth calc',
+      analysis_summary: {
+        trigger_code: 'DATA_INSUFFICIENT',
+        key_factors: {},
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -29,6 +38,15 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
       target_price: null,
       sell_price: null,
       logic: 'Current EPS is negative',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { current_eps: eps_t0 },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -58,6 +76,15 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
       target_price: null,
       sell_price: null,
       logic: 'Invalid PER',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { ttm_per: ttm_per || 0 },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -92,6 +119,23 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
     2
   )}${debtNote}`;
 
+  // Determine trigger code (debt warning takes priority)
+  let trigger_code: string;
+  if (debt_to_equity > 200) {
+    trigger_code = 'SELL_DEBT_RISK'; // 부채비율 200% 이상: 위험
+  } else if (debt_to_equity > 150) {
+    // verdict가 SELL이면 강력 경고, 아니면 일반 경고
+    trigger_code = verdict === 'SELL' ? 'SELL_DEBT_RISK' : 'HOLD_DEBT_WARNING';
+  } else if (peg < 0.5) {
+    trigger_code = 'BUY_FAST_GROWER';
+  } else if (peg < 1.0) {
+    trigger_code = 'BUY_STALWART';
+  } else if (peg < 1.5) {
+    trigger_code = 'HOLD_FAIR_VALUE';
+  } else {
+    trigger_code = 'SELL_PEG_EXPENSIVE';
+  }
+
   // 매도 기준가: PEG 1.5가 되는 지점 (EPS * Growth * 1.5)
   const sellPriceCalc = eps_t0 * growthRate * 1.5;
 
@@ -100,6 +144,19 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
     target_price: fairValue, // PEG 1.0 기준
     sell_price: sellPriceCalc, // PEG 1.5 기준
     logic,
+    analysis_summary: {
+      trigger_code,
+      key_factors: {
+        growth_rate: parseFloat(growthRate.toFixed(1)),
+        peg: parseFloat(peg.toFixed(2)),
+        debt_to_equity: debt_to_equity,
+      },
+    },
+    price_guide: {
+      buy_zone_max: fairValue, // PEG 1.0 기준가
+      profit_zone_min: sellPriceCalc, // PEG 1.5 기준가
+      stop_loss: null,
+    },
     metric_name: 'PEG Ratio',
     metric_value: peg,
   };

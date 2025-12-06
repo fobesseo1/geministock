@@ -32,6 +32,15 @@ export function calculateFisherAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'No historical data available',
+      analysis_summary: {
+        trigger_code: 'DATA_INSUFFICIENT',
+        key_factors: {},
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -44,6 +53,15 @@ export function calculateFisherAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'No PSR data available',
+      analysis_summary: {
+        trigger_code: 'DATA_INSUFFICIENT',
+        key_factors: {},
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -59,6 +77,15 @@ export function calculateFisherAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'Invalid PSR or SPS data',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { avg_psr: avgPSR || 0, max_psr: maxPSR, sps },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -82,11 +109,31 @@ export function calculateFisherAnalysis(
   // Build logic explanation
   const logic = `PSR ${currentPSR.toFixed(2)} vs avg ${avgPSR.toFixed(2)} → buy target $${buyTarget.toFixed(2)}, max PSR ${maxPSR.toFixed(2)} → sell at $${sellTarget.toFixed(2)}`;
 
+  // Determine trigger code
+  let trigger_code: string;
+  if (verdict === 'STRONG_BUY') trigger_code = 'BUY_PSR_BARGAIN';
+  else if (verdict === 'BUY') trigger_code = 'BUY_PSR_FAIR';
+  else if (verdict === 'HOLD') trigger_code = 'HOLD_PSR_BAND';
+  else trigger_code = 'SELL_PSR_EXPENSIVE';
+
   return {
     verdict,
     target_price: buyTarget,
     sell_price: sellTarget,
     logic,
+    analysis_summary: {
+      trigger_code,
+      key_factors: {
+        current_psr: parseFloat(currentPSR.toFixed(2)),
+        avg_psr: parseFloat(avgPSR.toFixed(2)),
+        max_psr: parseFloat(maxPSR.toFixed(2)),
+      },
+    },
+    price_guide: {
+      buy_zone_max: buyTarget,
+      profit_zone_min: sellTarget,
+      stop_loss: null,
+    },
     metric_name: 'PSR',
     metric_value: currentPSR,
   };

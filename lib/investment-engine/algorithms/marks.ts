@@ -37,6 +37,15 @@ export function calculateMarksAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'Missing 52-week price range data',
+      analysis_summary: {
+        trigger_code: 'DATA_INSUFFICIENT',
+        key_factors: {},
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -46,6 +55,15 @@ export function calculateMarksAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'Invalid 52-week price range',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { week_52_low, week_52_high },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -85,11 +103,30 @@ export function calculateMarksAnalysis(
     logic = `Price at ${(priceRank * 100).toFixed(1)}% of 52-week range (mid-cycle) - neutral positioning`;
   }
 
+  // Determine trigger code
+  let trigger_code: string;
+  if (verdict === 'STRONG_BUY') trigger_code = 'BUY_PANIC_BOTTOM';
+  else if (verdict === 'BUY') trigger_code = 'BUY_CYCLE_BOTTOM';
+  else if (verdict === 'SELL') trigger_code = 'SELL_EUPHORIA_TOP';
+  else trigger_code = 'HOLD_MID_CYCLE';
+
   return {
     verdict,
     target_price: week_52_low, // Bottom of 52-week range (buy opportunity)
     sell_price: week_52_high, // Top of 52-week range (sell opportunity)
     logic,
+    analysis_summary: {
+      trigger_code,
+      key_factors: {
+        cycle_position: parseFloat(priceRank.toFixed(2)),
+        is_undervalued: isUndervalued,
+      },
+    },
+    price_guide: {
+      buy_zone_max: week_52_low + (priceRange * 0.2), // 하위 20% 구간
+      profit_zone_min: week_52_low + (priceRange * 0.8), // 상위 20% 구간
+      stop_loss: null,
+    },
     metric_name: 'Price Position',
     metric_value: priceRank * 100, // Position in range as percentage
   };

@@ -56,6 +56,15 @@ export function calculateGrahamAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'No historical data available',
+      analysis_summary: {
+        trigger_code: 'DATA_INSUFFICIENT',
+        key_factors: {},
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -70,6 +79,15 @@ export function calculateGrahamAnalysis(
       target_price: null,
       sell_price: null,
       logic: 'Negative earnings - Graham formula requires positive EPS',
+      analysis_summary: {
+        trigger_code: 'AVOID_NO_EARNINGS',
+        key_factors: { current_eps: eps },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -110,11 +128,30 @@ export function calculateGrahamAnalysis(
   // Build logic explanation
   const logic = `EPS $${eps.toFixed(2)}, 성장률 ${epsGrowthRate.toFixed(1)}% 반영 → 적정가 $${grahamNumber.toFixed(2)}`;
 
+  // Determine trigger code
+  let trigger_code: string;
+  if (verdict === 'STRONG_BUY') trigger_code = 'BUY_DEEP_VALUE';
+  else if (verdict === 'BUY') trigger_code = 'BUY_FAIR_VALUE';
+  else trigger_code = 'SELL_OVERPRICED';
+
   return {
     verdict,
     target_price: grahamNumber * 0.67, // 안전마진 가격을 목표가로
     sell_price: grahamNumber, // 적정가를 매도가로
     logic,
+    analysis_summary: {
+      trigger_code,
+      key_factors: {
+        eps: parseFloat(eps.toFixed(2)),
+        eps_growth_rate: parseFloat(epsGrowthRate.toFixed(1)),
+        graham_number: parseFloat(grahamNumber.toFixed(2)),
+      },
+    },
+    price_guide: {
+      buy_zone_max: grahamNumber * 0.67, // 안전마진 가격
+      profit_zone_min: grahamNumber, // 적정가
+      stop_loss: null,
+    },
     metric_name: 'Graham Number',
     metric_value: grahamNumber,
   };

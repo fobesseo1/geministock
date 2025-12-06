@@ -16,6 +16,15 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
       target_price: null,
       sell_price: null,
       logic: 'Insufficient historical data',
+      analysis_summary: {
+        trigger_code: 'DATA_INSUFFICIENT',
+        key_factors: {},
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -29,6 +38,15 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
       target_price: null,
       sell_price: null,
       logic: 'Negative ROE - cannot project earnings',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { avg_roe: avgROE || 0 },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -44,6 +62,15 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
       target_price: null,
       sell_price: null,
       logic: 'Current EPS is negative',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { current_eps: eps_t0 },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
 
@@ -65,10 +92,16 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
     }
   }
 
-  // Step 3: Compounding rate (Min of ROE vs Growth*1.5)
-  // 3% 보정된 성장률을 사용하여 목표가가 0원이 되는 것을 방지
-  const compoundingRate = Math.min(avgROE, epsGrowthRate * 1.5);
-  const cappedRate = Math.min(compoundingRate, 40); // Max cap 40%
+  // Step 3: Growth Decay Model - assumes high growth converges to terminal rate
+  const TERMINAL_GROWTH_RATE = 3.0; // Long-term economic growth baseline
+  const rawCompoundingRate = Math.min(avgROE, epsGrowthRate * 1.5);
+
+  // Average of current growth and terminal growth (decay assumption)
+  // Example: Visa (29% + 3%) / 2 = 16% expected average over 10 years
+  const decayAdjustedRate = (rawCompoundingRate + TERMINAL_GROWTH_RATE) / 2;
+
+  // Final safety cap (lowered from 40% to 30%)
+  const cappedRate = Math.min(decayAdjustedRate, 30.0);
 
   // Step 4: Average PER (Capped)
   const avgPER = getFlexibleAverage([hist[0]?.per, hist[1]?.per, hist[2]?.per]);
@@ -78,6 +111,15 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
       target_price: null,
       sell_price: null,
       logic: 'Invalid historical PER',
+      analysis_summary: {
+        trigger_code: 'DATA_INVALID',
+        key_factors: { avg_per: avgPER || 0 },
+      },
+      price_guide: {
+        buy_zone_max: null,
+        profit_zone_min: null,
+        stop_loss: null,
+      },
     };
   }
   const cappedPER = Math.min(avgPER, 50);
@@ -102,15 +144,36 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
     ? `Growth ${epsGrowthRate.toFixed(1)}% (adj min)`
     : `Growth ${epsGrowthRate.toFixed(1)}%`;
 
-  const logic = `ROE ${avgROE.toFixed(1)}%, ${growthLabel} → compounding ${cappedRate.toFixed(
+  const logic = `ROE ${avgROE.toFixed(1)}%, ${growthLabel} → decay-adj ${cappedRate.toFixed(
     1
   )}%, PER ${avgPER.toFixed(1)}x → target $${buyPrice.toFixed(2)}`;
+
+  // Determine trigger code based on verdict
+  let trigger_code: string;
+  if (verdict === 'STRONG_BUY') trigger_code = 'BUY_MOAT_BARGAIN';
+  else if (verdict === 'BUY') trigger_code = 'BUY_QUALITY_FAIR';
+  else if (verdict === 'HOLD') trigger_code = 'HOLD_MOAT_FAIR';
+  else trigger_code = 'SELL_MOAT_EXPENSIVE';
 
   return {
     verdict,
     target_price: buyPrice,
     sell_price: buyPrice * 1.2, // 이 가격 넘으면 비싸다고 판단
     logic,
+    analysis_summary: {
+      trigger_code,
+      key_factors: {
+        avg_roe: parseFloat(avgROE.toFixed(1)),
+        eps_growth: parseFloat(epsGrowthRate.toFixed(1)),
+        compounding_rate: parseFloat(cappedRate.toFixed(1)),
+        avg_per: parseFloat(avgPER.toFixed(1)),
+      },
+    },
+    price_guide: {
+      buy_zone_max: buyPrice,
+      profit_zone_min: buyPrice * 1.2,
+      stop_loss: null,
+    },
     metric_name: 'Compounding Rate',
     metric_value: cappedRate,
   };

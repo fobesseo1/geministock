@@ -1,0 +1,76 @@
+[
+    {
+        "t_index": "t-1",
+        "period": "2023.12.31",
+        "PER": 2.53,
+        "PBR": 0.09,
+        "PER_특별손익제외": 2.53,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PER": "배 (Times)",
+            "PBR": "배 (Times)",
+            "PER_특별손익제외": "배 (Times)",
+            "calculated_FCF": "USD"
+        }
+    },
+    {
+        "t_index": "t-0",
+        "period": "2024.12.31",
+        "매출액": 46440000.0,
+        "EBITDA": -24280000.0,
+        "EBIT": -27380000.0,
+        "세전손익": -38250000.0,
+        "세후손익": -38830000.0,
+        "당기순이익": -39480000.0,
+        "ROA": -31.07,
+        "PSR": 4.37,
+        "EPS_특별손익제외": -0.85,
+        "EPS": -0.8,
+        "BPS": -1.42,
+        "CFPS": -0.77,
+        "SPS": 1.0,
+        "ROI": -550.8,
+        "ROE": -1124.72,
+        "당좌비율": 0.61,
+        "유동비율": 0.61,
+        "매출총이익마진율": 31.42,
+        "영업이익마진율": -65.94,
+        "순이익마진율": -83.61,
+        "매출변동률": -12.81,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "매출액": "USD",
+            "EBITDA": "USD",
+            "EBIT": "USD",
+            "세전손익": "USD",
+            "세후손익": "USD",
+            "당기순이익": "USD",
+            "ROA": "%",
+            "PSR": "배 (Times)",
+            "EPS_특별손익제외": "USD",
+            "EPS": "USD",
+            "BPS": "USD",
+            "CFPS": "USD",
+            "SPS": "USD",
+            "ROI": "%",
+            "ROE": "%",
+            "당좌비율": "%",
+            "유동비율": "%",
+            "매출총이익마진율": "%",
+            "영업이익마진율": "%",
+            "순이익마진율": "%",
+            "매출변동률": "%",
+            "calculated_FCF": "USD"
+        }
+    }
+]

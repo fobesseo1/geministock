@@ -1,0 +1,74 @@
+[
+    {
+        "t_index": "t-1",
+        "period": "2023.12.31",
+        "매출액": 0.0,
+        "EBITDA": 0.0,
+        "EBIT": 0.0,
+        "미지급금/단기부채": 0.0,
+        "총 장기부채": 0.0,
+        "부채": 0.0,
+        "보통주발행": 0.0,
+        "총 수익": 0.0,
+        "영업이익": 0.0,
+        "희석항목 조정": 0.0,
+        "희석순이익": 0.0,
+        "현금 변화량": 0.0,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "매출액": "USD",
+            "EBITDA": "USD",
+            "EBIT": "USD",
+            "미지급금/단기부채": "USD",
+            "총 장기부채": "USD",
+            "부채": "USD",
+            "보통주발행": "Shares",
+            "총 수익": "USD",
+            "영업이익": "USD",
+            "희석항목 조정": "USD",
+            "희석순이익": "USD",
+            "현금 변화량": "USD",
+            "calculated_FCF": "USD"
+        }
+    },
+    {
+        "t_index": "t-0",
+        "period": "2024.12.31",
+        "매출액": 0.0,
+        "EBITDA": -80000.0,
+        "EBIT": -80000.0,
+        "세전손익": -80000.0,
+        "세후손익": -80000.0,
+        "당기순이익": -80000.0,
+        "EPS_특별손익제외": -0.0,
+        "EPS": -0.0,
+        "BPS": -0.0,
+        "SPS": 0.0,
+        "유동비율": 0.04,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "매출액": "USD",
+            "EBITDA": "USD",
+            "EBIT": "USD",
+            "세전손익": "USD",
+            "세후손익": "USD",
+            "당기순이익": "USD",
+            "EPS_특별손익제외": "USD",
+            "EPS": "USD",
+            "BPS": "USD",
+            "SPS": "USD",
+            "유동비율": "%",
+            "calculated_FCF": "USD"
+        }
+    }
+]

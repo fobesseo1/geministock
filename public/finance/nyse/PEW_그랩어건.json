@@ -1,0 +1,39 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2024.12.31",
+        "PER": 20.41,
+        "PBR": 0.68,
+        "EBITDA": -0.0,
+        "EBIT": -0.0,
+        "세전손익": -0.0,
+        "세후손익": -0.0,
+        "당기순이익": -0.0,
+        "PER_특별손익제외": 20.41,
+        "EPS_특별손익제외": -0.0,
+        "EPS": -0.0,
+        "BPS": -0.0,
+        "유동비율": 0.0,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PER": "배 (Times)",
+            "PBR": "배 (Times)",
+            "EBITDA": "USD",
+            "EBIT": "USD",
+            "세전손익": "USD",
+            "세후손익": "USD",
+            "당기순이익": "USD",
+            "PER_특별손익제외": "배 (Times)",
+            "EPS_특별손익제외": "USD",
+            "EPS": "USD",
+            "BPS": "USD",
+            "유동비율": "%",
+            "calculated_FCF": "USD"
+        }
+    }
+]

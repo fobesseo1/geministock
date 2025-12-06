@@ -1,0 +1,35 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2024.12.31",
+        "PER": 35.27,
+        "PBR": 2.08,
+        "PER_특별손익제외": 35.27,
+        "PCFR": 42620000.0,
+        "PSR": 6.83,
+        "EPS_특별손익제외": 0.18,
+        "EPS": 0.18,
+        "BPS": 3.0,
+        "CFPS": 3.81,
+        "SPS": 23.74,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PER": "배 (Times)",
+            "PBR": "배 (Times)",
+            "PER_특별손익제외": "배 (Times)",
+            "PCFR": "USD",
+            "PSR": "배 (Times)",
+            "EPS_특별손익제외": "USD",
+            "EPS": "USD",
+            "BPS": "USD",
+            "CFPS": "USD",
+            "SPS": "USD",
+            "calculated_FCF": "USD"
+        }
+    }
+]

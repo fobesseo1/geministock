@@ -1,0 +1,25 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2020.11.30",
+        "매출액": 0.0,
+        "EBITDA": 0.0,
+        "EBIT": 0.0,
+        "배당수익률": 7.78,
+        "SPS": 0.0,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "매출액": "USD",
+            "EBITDA": "USD",
+            "EBIT": "USD",
+            "배당수익률": "%",
+            "SPS": "USD",
+            "calculated_FCF": "USD"
+        }
+    }
+]

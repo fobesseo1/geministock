@@ -1,0 +1,27 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2025.03.31",
+        "PER": 31.91,
+        "PBR": 4.26,
+        "배당수익률": 0.4,
+        "PER_특별손익제외": 32.32,
+        "PCFR": 25060000.0,
+        "PSR": 5.17,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PER": "배 (Times)",
+            "PBR": "배 (Times)",
+            "배당수익률": "%",
+            "PER_특별손익제외": "배 (Times)",
+            "PCFR": "USD",
+            "PSR": "배 (Times)",
+            "calculated_FCF": "USD"
+        }
+    }
+]

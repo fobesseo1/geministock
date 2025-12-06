@@ -1,0 +1,27 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2024.12.31",
+        "PER": 15.27,
+        "PBR": 1.24,
+        "배당수익률": 6.49,
+        "PER_특별손익제외": 14.53,
+        "PCFR": 1907721.28,
+        "PSR": 3.62,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "BRL",
+            "applied_exchange_rate": 0.18832391713747648,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PER": "배 (Times)",
+            "PBR": "배 (Times)",
+            "배당수익률": "%",
+            "PER_특별손익제외": "배 (Times)",
+            "PCFR": "USD",
+            "PSR": "배 (Times)",
+            "calculated_FCF": "USD"
+        }
+    }
+]

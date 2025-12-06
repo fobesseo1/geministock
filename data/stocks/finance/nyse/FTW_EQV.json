@@ -1,0 +1,21 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2024.12.31",
+        "PER": 43.82,
+        "PBR": 0.27,
+        "PER_특별손익제외": 43.82,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PER": "배 (Times)",
+            "PBR": "배 (Times)",
+            "PER_특별손익제외": "배 (Times)",
+            "calculated_FCF": "USD"
+        }
+    }
+]

@@ -1,0 +1,19 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2024.09.30",
+        "PBR": 12.78,
+        "PSR": 25.48,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PBR": "배 (Times)",
+            "PSR": "배 (Times)",
+            "calculated_FCF": "USD"
+        }
+    }
+]

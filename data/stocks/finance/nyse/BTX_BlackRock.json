@@ -1,0 +1,37 @@
+[
+    {
+        "t_index": "t-0",
+        "period": "2020.12.31",
+        "PBR": 15.67,
+        "PSR": 80.36,
+        "EPS_특별손익제외": -3.03,
+        "EPS": -3.11,
+        "BPS": 0.58,
+        "CFPS": -1.84,
+        "SPS": 3.96,
+        "보통주발행": 1480000.0,
+        "희석 가중평균 주식": 1460000.0,
+        "특별손익 제외한 희석 EPS": -3.03,
+        "표준 희석 EPS": -3.11,
+        "calculated_FCF": 0,
+        "__meta__": {
+            "original_currency": "USD",
+            "applied_exchange_rate": 1.0,
+            "display_currency": "USD"
+        },
+        "__units__": {
+            "PBR": "배 (Times)",
+            "PSR": "배 (Times)",
+            "EPS_특별손익제외": "USD",
+            "EPS": "USD",
+            "BPS": "USD",
+            "CFPS": "USD",
+            "SPS": "USD",
+            "보통주발행": "Shares",
+            "희석 가중평균 주식": "Shares",
+            "특별손익 제외한 희석 EPS": "USD",
+            "표준 희석 EPS": "USD",
+            "calculated_FCF": "USD"
+        }
+    }
+]

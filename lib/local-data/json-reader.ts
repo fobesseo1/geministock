@@ -1,15 +1,15 @@
-import fs from 'fs/promises';
-import path from 'path';
 import type { LocalFinancialYear } from '@/lib/types/combined-stock-data';
-
-const DATA_DIR = path.join(process.cwd(), 'data', 'stocks', 'finance');
+import { getTickerData } from './ticker-map';
 
 /**
  * Read local financial data JSON file
- * Searches in:
- * - data/stocks/finance/{TICKER}_{회사명}.json
- * - data/stocks/finance/nasdaq/{TICKER}_{회사명}.json
- * - data/stocks/finance/nyse/{TICKER}_{회사명}.json
+ * Uses static imports to avoid Turbopack bundling warnings
+ *
+ * Benefits:
+ * - No runtime file system operations
+ * - Better build-time optimization
+ * - Smaller bundle size (only includes used files)
+ * - Type-safe imports
  *
  * @param ticker - Stock ticker symbol (e.g., "AAPL", "TSLA")
  * @returns Promise<LocalFinancialYear[]> - Array of financial data by year
@@ -19,38 +19,13 @@ export async function readLocalFinancialData(
   ticker: string
 ): Promise<LocalFinancialYear[]> {
   try {
-    const upperTicker = ticker.toUpperCase();
+    const data = await getTickerData(ticker);
 
-    // Search locations: root, nasdaq, nyse
-    const searchPaths = [
-      DATA_DIR,
-      path.join(DATA_DIR, 'nasdaq'),
-      path.join(DATA_DIR, 'nyse'),
-    ];
-
-    // Search each directory
-    for (const dirPath of searchPaths) {
-      try {
-        const files = await fs.readdir(dirPath);
-        const matchingFile = files.find(
-          (file) =>
-            file.startsWith(`${upperTicker}_`) && file.endsWith('.json')
-        );
-
-        if (matchingFile) {
-          const filePath = path.join(dirPath, matchingFile);
-          const content = await fs.readFile(filePath, 'utf-8');
-          const data = JSON.parse(content);
-          return data;
-        }
-      } catch (err) {
-        // Directory doesn't exist, continue to next
-        continue;
-      }
+    if (!data) {
+      throw new Error(`No local data file found for ${ticker}`);
     }
 
-    // No file found in any directory
-    throw new Error(`No local data file found for ${ticker}`);
+    return data;
   } catch (error) {
     console.error(`Error reading local data for ${ticker}:`, error);
     throw error;

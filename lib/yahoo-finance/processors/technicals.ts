@@ -1,4 +1,3 @@
-import type { QuoteSummaryResult } from 'yahoo-finance2';
 import type { TechnicalIndicators } from '@/lib/types/stock-data';
 
 /**
@@ -8,7 +7,7 @@ import type { TechnicalIndicators } from '@/lib/types/stock-data';
  * @returns TechnicalIndicators - Technical price indicators
  */
 export function processTechnicals(
-  quoteSummary: QuoteSummaryResult
+  quoteSummary: any
 ): TechnicalIndicators {
   return {
     fifty_two_week_high: quoteSummary.summaryDetail?.fiftyTwoWeekHigh ?? 0,

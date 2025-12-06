@@ -1,4 +1,3 @@
-import type { QuoteSummaryResult } from 'yahoo-finance2';
 import type { TTMMetrics } from '@/lib/types/stock-data';
 
 /**
@@ -9,7 +8,7 @@ import type { TTMMetrics } from '@/lib/types/stock-data';
  * @returns TTMMetrics - Real-time TTM metrics (per, debt_to_equity)
  */
 export function processCurrentMetrics(
-  quoteSummary: QuoteSummaryResult
+  quoteSummary: any
 ): TTMMetrics {
   return {
     per: quoteSummary.summaryDetail?.trailingPE ?? null,

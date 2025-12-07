@@ -5,7 +5,7 @@ Complete API response documentation for 19 test stocks (9 NASDAQ + 10 NYSE).
 ## API Endpoint Format
 
 ```
-GET http://localhost:3000/api/invest/{ticker}
+GET https://geministock8.vercel.app/api/invest/{ticker}
 ```
 
 ## Response Structure (TypeScript)
@@ -63,6 +63,7 @@ interface AlgorithmResult {
 ## Test Stock List
 
 ### NASDAQ (9 stocks)
+
 - AMZN (아마존닷컴)
 - AVGO (브로드컴)
 - GOOG (알파벳)
@@ -74,6 +75,7 @@ interface AlgorithmResult {
 - TSLA (테슬라)
 
 ### NYSE (10 stocks)
+
 - BRK-B (버크셔)
 - JNJ (존슨앤드존슨)
 - JPM (제이피모간체이스)
@@ -91,9 +93,10 @@ interface AlgorithmResult {
 
 ### 1. NVDA (엔비디아)
 
-**Endpoint**: `http://localhost:3000/api/invest/NVDA`
+**Endpoint**: `https://geministock8.vercel.app/api/invest/NVDA`
 
 **Response**:
+
 ```json
 {
   "ticker": "NVDA",
@@ -246,9 +249,10 @@ interface AlgorithmResult {
 
 ### 2. TSLA (테슬라)
 
-**Endpoint**: `http://localhost:3000/api/invest/TSLA`
+**Endpoint**: `https://geministock8.vercel.app/api/invest/TSLA`
 
 **Response**:
+
 ```json
 {
   "ticker": "TSLA",
@@ -401,33 +405,34 @@ interface AlgorithmResult {
 
 ## Quick Reference Table
 
-| Ticker | Endpoint | Expected Verdicts (Buffett/Lynch/Graham/Fisher/Druckenmiller/Marks) |
-|--------|----------|----------------------------------------------------------------------|
-| AMZN | `/api/invest/AMZN` | Test with live API |
-| AVGO | `/api/invest/AVGO` | Test with live API |
-| GOOG | `/api/invest/GOOG` | Test with live API |
-| GOOGL | `/api/invest/GOOGL` | Test with live API |
-| META | `/api/invest/META` | Test with live API |
-| MSFT | `/api/invest/MSFT` | Test with live API |
-| NFLX | `/api/invest/NFLX` | Test with live API |
-| NVDA | `/api/invest/NVDA` | Example above |
-| TSLA | `/api/invest/TSLA` | Example above |
-| BRK-B | `/api/invest/BRK-B` | Test with live API |
-| JNJ | `/api/invest/JNJ` | Test with live API |
-| JPM | `/api/invest/JPM` | Test with live API |
-| LLY | `/api/invest/LLY` | Test with live API |
-| MA | `/api/invest/MA` | Test with live API |
-| ORCL | `/api/invest/ORCL` | Test with live API |
-| TSM | `/api/invest/TSM` | Test with live API |
-| V | `/api/invest/V` | Test with live API |
-| WMT | `/api/invest/WMT` | Test with live API |
-| XOM | `/api/invest/XOM` | Test with live API |
+| Ticker | Endpoint            | Expected Verdicts (Buffett/Lynch/Graham/Fisher/Druckenmiller/Marks) |
+| ------ | ------------------- | ------------------------------------------------------------------- |
+| AMZN   | `/api/invest/AMZN`  | Test with live API                                                  |
+| AVGO   | `/api/invest/AVGO`  | Test with live API                                                  |
+| GOOG   | `/api/invest/GOOG`  | Test with live API                                                  |
+| GOOGL  | `/api/invest/GOOGL` | Test with live API                                                  |
+| META   | `/api/invest/META`  | Test with live API                                                  |
+| MSFT   | `/api/invest/MSFT`  | Test with live API                                                  |
+| NFLX   | `/api/invest/NFLX`  | Test with live API                                                  |
+| NVDA   | `/api/invest/NVDA`  | Example above                                                       |
+| TSLA   | `/api/invest/TSLA`  | Example above                                                       |
+| BRK-B  | `/api/invest/BRK-B` | Test with live API                                                  |
+| JNJ    | `/api/invest/JNJ`   | Test with live API                                                  |
+| JPM    | `/api/invest/JPM`   | Test with live API                                                  |
+| LLY    | `/api/invest/LLY`   | Test with live API                                                  |
+| MA     | `/api/invest/MA`    | Test with live API                                                  |
+| ORCL   | `/api/invest/ORCL`  | Test with live API                                                  |
+| TSM    | `/api/invest/TSM`   | Test with live API                                                  |
+| V      | `/api/invest/V`     | Test with live API                                                  |
+| WMT    | `/api/invest/WMT`   | Test with live API                                                  |
+| XOM    | `/api/invest/XOM`   | Test with live API                                                  |
 
 ---
 
 ## Trigger Code Reference
 
 ### Buffett (ROE-based)
+
 - `BUY_COMPETITIVE_MOAT` - Strong ROE with competitive advantage
 - `BUY_UNDERVALUED` - Price below intrinsic value
 - `HOLD_ABOVE_VALUE` - Price above value but acceptable
@@ -435,6 +440,7 @@ interface AlgorithmResult {
 - `SELL_WEAK_BUSINESS` - Poor fundamentals
 
 ### Lynch (PEG-based)
+
 - `BUY_FAST_GROWER` - PEG < 0.5 (high growth, low price)
 - `BUY_STALWART` - PEG 0.5-1.0 (fair growth)
 - `HOLD_FAIR_VALUE` - PEG 1.0-1.5 (fairly valued)
@@ -443,23 +449,27 @@ interface AlgorithmResult {
 - `SELL_DEBT_RISK` - Debt > 200% (high risk)
 
 ### Graham (Value-based)
+
 - `BUY_MARGIN_SAFETY` - Price below intrinsic value with safety margin
 - `HOLD_NEAR_VALUE` - Price near intrinsic value
 - `HOLD_ABOVE_VALUE` - Price above intrinsic value
 - `SELL_OVERVALUED` - Price significantly above value
 
 ### Fisher (PSR-based)
+
 - `BUY_PSR_BARGAIN` - PSR < 90% of average (bargain)
 - `BUY_PSR_FAIR` - PSR < average (fair value)
 - `HOLD_PSR_BAND` - PSR between average and max
 - `SELL_PSR_EXPENSIVE` - PSR > historical max
 
 ### Druckenmiller (Trend-based)
+
 - `BUY_TREND_BREAKOUT` - Strong uptrend with momentum
 - `HOLD_DIP_OPPORTUNITY` - Uptrend intact, pullback opportunity
 - `SELL_TREND_BROKEN` - Price below 200-day MA
 
 ### Marks (Cycle-based)
+
 - `BUY_PANIC_BOTTOM` - Bottom 20% + undervalued (panic selling)
 - `BUY_CYCLE_BOTTOM` - Bottom 20% of range (cycle bottom)
 - `HOLD_MID_CYCLE` - Middle of range (neutral)
@@ -470,30 +480,33 @@ interface AlgorithmResult {
 ## Testing Commands
 
 ### Using curl
+
 ```bash
 # Test single stock
-curl http://localhost:3000/api/invest/NVDA
+curl https://geministock8.vercel.app/api/invest/NVDA
 
 # Test with pretty print (using jq)
-curl http://localhost:3000/api/invest/NVDA | jq '.'
+curl https://geministock8.vercel.app/api/invest/NVDA | jq '.'
 
 # Test all NASDAQ stocks
 for ticker in AMZN AVGO GOOG GOOGL META MSFT NFLX NVDA TSLA; do
   echo "Testing $ticker..."
-  curl http://localhost:3000/api/invest/$ticker | jq '.summary'
+  curl https://geministock8.vercel.app/api/invest/$ticker | jq '.summary'
 done
 
 # Test all NYSE stocks
 for ticker in BRK-B JNJ JPM LLY MA ORCL TSM V WMT XOM; do
   echo "Testing $ticker..."
-  curl http://localhost:3000/api/invest/$ticker | jq '.summary'
+  curl https://geministock8.vercel.app/api/invest/$ticker | jq '.summary'
 done
 ```
 
 ### Using browser
+
 Simply navigate to:
-- http://localhost:3000/api/invest/NVDA
-- http://localhost:3000/api/invest/TSLA
+
+- https://geministock8.vercel.app/api/invest/NVDA
+- https://geministock8.vercel.app/api/invest/TSLA
 - (Replace ticker with any stock symbol)
 
 ---

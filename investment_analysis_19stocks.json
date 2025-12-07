@@ -1,0 +1,2804 @@
+{
+  "metadata": {
+    "total_stocks": 19,
+    "fetched_at": "2025-12-06T23:52:27.855542",
+    "api_base_url": "https://geministock8.vercel.app/api/invest",
+    "stocks": [
+      "AMZN",
+      "AVGO",
+      "GOOG",
+      "GOOGL",
+      "META",
+      "MSFT",
+      "NFLX",
+      "NVDA",
+      "TSLA",
+      "BRK-B",
+      "JNJ",
+      "JPM",
+      "LLY",
+      "MA",
+      "ORCL",
+      "TSM",
+      "V",
+      "WMT",
+      "XOM"
+    ]
+  },
+  "data": {
+    "AMZN": {
+      "ticker": "AMZN",
+      "meta": {
+        "current_price": 229.53,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:04.600Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 0,
+          "buy": 0,
+          "hold": 3,
+          "sell": 3
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 98.5852023926985,
+          "sell_price": 118.3022428712382,
+          "logic": "ROE 20.9%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 62.0x → target $98.59",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 20.9,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 62
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 98.5852023926985,
+            "profit_zone_min": 118.3022428712382,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 16.56,
+          "sell_price": 24.839999999999996,
+          "logic": "Growth 3.0% (min adj), PER 32.5 → PEG 10.82",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 10.82,
+              "debt_to_equity": 43.405
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 16.56,
+            "profit_zone_min": 24.839999999999996,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 10.821782333333333
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 53.626799999999996,
+          "sell_price": 80.03999999999999,
+          "logic": "EPS $5.52, 성장률 3.0% 반영 → 적정가 $80.04",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 5.52,
+              "eps_growth_rate": 3,
+              "graham_number": 80.04
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 53.626799999999996,
+            "profit_zone_min": 80.03999999999999,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 80.03999999999999
+        },
+        "fisher": {
+          "verdict": "HOLD",
+          "target_price": 227.3282,
+          "sell_price": 258.8685,
+          "logic": "PSR 3.91 vs avg 3.82 → buy target $227.33, max PSR 4.35 → sell at $258.87",
+          "analysis_summary": {
+            "trigger_code": "HOLD_PSR_BAND",
+            "key_factors": {
+              "current_psr": 3.91,
+              "avg_psr": 3.82,
+              "max_psr": 4.35
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 227.3282,
+            "profit_zone_min": 258.8685,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 3.91
+        },
+        "druckenmiller": {
+          "verdict": "HOLD",
+          "target_price": null,
+          "sell_price": 214.7989,
+          "logic": "Price above 200-day MA but pulled back from 52-week high - trend intact but momentum weak",
+          "analysis_summary": {
+            "trigger_code": "HOLD_DIP_OPPORTUNITY",
+            "key_factors": {
+              "price_vs_ma200": 1.07,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 271.53000000000003,
+            "profit_zone_min": null,
+            "stop_loss": 214.7989
+          },
+          "metric_name": "200D MA",
+          "metric_value": 214.7989
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 161.38,
+          "sell_price": 258.6,
+          "logic": "Price at 70.1% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.7,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 180.824,
+            "profit_zone_min": 239.156,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 70.09874511417402
+        }
+      }
+    },
+    "AVGO": {
+      "ticker": "AVGO",
+      "meta": {
+        "current_price": 390.24,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:05.853Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 0,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 27.14664993422133,
+          "sell_price": 32.575979921065596,
+          "logic": "ROE 36.1%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 117.6x → target $27.15",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 36.1,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 117.6
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 27.14664993422133,
+            "profit_zone_min": 32.575979921065596,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 4.5600000000000005,
+          "sell_price": 6.840000000000001,
+          "logic": "Growth 3.0% (min adj), PER 100.1 → PEG 33.35 (debt penalty)",
+          "analysis_summary": {
+            "trigger_code": "SELL_DEBT_RISK",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 33.35,
+              "debt_to_equity": 166.032
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 4.5600000000000005,
+            "profit_zone_min": 6.840000000000001,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 33.35384333333334
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 14.7668,
+          "sell_price": 22.04,
+          "logic": "EPS $1.52, 성장률 3.0% 반영 → 적정가 $22.04",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 1.52,
+              "eps_growth_rate": 3,
+              "graham_number": 22.04
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 14.7668,
+            "profit_zone_min": 22.04,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 22.04
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 258.49243333333334,
+          "sell_price": 398.15099999999995,
+          "logic": "PSR 36.90 vs avg 23.96 → buy target $258.49, max PSR 36.90 → sell at $398.15",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 36.9,
+              "avg_psr": 23.96,
+              "max_psr": 36.9
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 258.49243333333334,
+            "profit_zone_min": 398.15099999999995,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 36.9
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 275.22925,
+          "logic": "Price $390.24 above 200-day MA ($275.23) and near 52-week high ($403.00) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.42,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 423.15000000000003,
+            "profit_zone_min": null,
+            "stop_loss": 275.22925
+          },
+          "metric_name": "200D MA",
+          "metric_value": 275.22925
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 138.1,
+          "sell_price": 403,
+          "logic": "Price at 95.2% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.95,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 191.07999999999998,
+            "profit_zone_min": 350.02,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 95.1830879577199
+        }
+      }
+    },
+    "GOOG": {
+      "ticker": "GOOG",
+      "meta": {
+        "current_price": 322.09,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:07.103Z"
+      },
+      "summary": {
+        "total_score": 63,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 2,
+          "buy": 1,
+          "hold": 1,
+          "sell": 2
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "HOLD",
+          "target_price": 311.418442816746,
+          "sell_price": 373.7021313800952,
+          "logic": "ROE 28.5%, Growth 35.6% → decay-adj 15.8%, PER 34.8x → target $311.42",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MOAT_FAIR",
+            "key_factors": {
+              "avg_roe": 28.5,
+              "eps_growth": 35.6,
+              "compounding_rate": 15.8,
+              "avg_per": 34.8
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 311.418442816746,
+            "profit_zone_min": 373.7021313800952,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 15.758333333333333
+        },
+        "lynch": {
+          "verdict": "BUY",
+          "target_price": 299.0478428185081,
+          "sell_price": 448.5717642277622,
+          "logic": "Growth 35.6%, PER 31.7 → PEG 0.89",
+          "analysis_summary": {
+            "trigger_code": "BUY_STALWART",
+            "key_factors": {
+              "growth_rate": 35.6,
+              "peg": 0.89,
+              "debt_to_equity": 11.424
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 299.0478428185081,
+            "profit_zone_min": 448.5717642277622,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 0.8902920610652282
+        },
+        "graham": {
+          "verdict": "STRONG_BUY",
+          "target_price": 391.4167421487606,
+          "sell_price": 584.2040927593441,
+          "logic": "EPS $8.39, 성장률 35.6% 반영 → 적정가 $584.20",
+          "analysis_summary": {
+            "trigger_code": "BUY_DEEP_VALUE",
+            "key_factors": {
+              "eps": 8.39,
+              "eps_growth_rate": 35.6,
+              "graham_number": 584.2
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 391.4167421487606,
+            "profit_zone_min": 584.2040927593441,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 584.2040927593441
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 243.33173333333337,
+          "sell_price": 310.4448,
+          "logic": "PSR 11.04 vs avg 8.65 → buy target $243.33, max PSR 11.04 → sell at $310.44",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 11.04,
+              "avg_psr": 8.65,
+              "max_psr": 11.04
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 243.33173333333337,
+            "profit_zone_min": 310.4448,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 11.04
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 206.49165,
+          "logic": "Price $322.09 above 200-day MA ($206.49) and near 52-week high ($328.67) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.56,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 345.10350000000005,
+            "profit_zone_min": null,
+            "stop_loss": 206.49165
+          },
+          "metric_name": "200D MA",
+          "metric_value": 206.49165
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 142.66,
+          "sell_price": 328.67,
+          "logic": "Price at 96.5% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.96,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 179.862,
+            "profit_zone_min": 291.468,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 96.46255577657114
+        }
+      }
+    },
+    "GOOGL": {
+      "ticker": "GOOGL",
+      "meta": {
+        "current_price": 321.27,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:08.506Z"
+      },
+      "summary": {
+        "total_score": 63,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 2,
+          "buy": 1,
+          "hold": 1,
+          "sell": 2
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "HOLD",
+          "target_price": 311.418442816746,
+          "sell_price": 373.7021313800952,
+          "logic": "ROE 28.5%, Growth 35.6% → decay-adj 15.8%, PER 34.8x → target $311.42",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MOAT_FAIR",
+            "key_factors": {
+              "avg_roe": 28.5,
+              "eps_growth": 35.6,
+              "compounding_rate": 15.8,
+              "avg_per": 34.8
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 311.418442816746,
+            "profit_zone_min": 373.7021313800952,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 15.758333333333333
+        },
+        "lynch": {
+          "verdict": "BUY",
+          "target_price": 299.0478428185081,
+          "sell_price": 448.5717642277622,
+          "logic": "Growth 35.6%, PER 31.7 → PEG 0.89",
+          "analysis_summary": {
+            "trigger_code": "BUY_STALWART",
+            "key_factors": {
+              "growth_rate": 35.6,
+              "peg": 0.89,
+              "debt_to_equity": 11.424
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 299.0478428185081,
+            "profit_zone_min": 448.5717642277622,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 0.8906579075430655
+        },
+        "graham": {
+          "verdict": "STRONG_BUY",
+          "target_price": 391.4167421487606,
+          "sell_price": 584.2040927593441,
+          "logic": "EPS $8.39, 성장률 35.6% 반영 → 적정가 $584.20",
+          "analysis_summary": {
+            "trigger_code": "BUY_DEEP_VALUE",
+            "key_factors": {
+              "eps": 8.39,
+              "eps_growth_rate": 35.6,
+              "graham_number": 584.2
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 391.4167421487606,
+            "profit_zone_min": 584.2040927593441,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 584.2040927593441
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 243.33173333333337,
+          "sell_price": 310.4448,
+          "logic": "PSR 11.04 vs avg 8.65 → buy target $243.33, max PSR 11.04 → sell at $310.44",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 11.04,
+              "avg_psr": 8.65,
+              "max_psr": 11.04
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 243.33173333333337,
+            "profit_zone_min": 310.4448,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 11.04
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 205.36835,
+          "logic": "Price $321.27 above 200-day MA ($205.37) and near 52-week high ($328.83) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.56,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 345.2715,
+            "profit_zone_min": null,
+            "stop_loss": 205.36835
+          },
+          "metric_name": "200D MA",
+          "metric_value": 205.36835
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 140.53,
+          "sell_price": 328.83,
+          "logic": "Price at 96.0% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.96,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 178.19,
+            "profit_zone_min": 291.16999999999996,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 95.98513011152417
+        }
+      }
+    },
+    "META": {
+      "ticker": "META",
+      "meta": {
+        "current_price": 673.42,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:09.789Z"
+      },
+      "summary": {
+        "total_score": 75,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 2,
+          "buy": 2,
+          "hold": 2,
+          "sell": 0
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "STRONG_BUY",
+          "target_price": 899.3074236251255,
+          "sell_price": 1079.1689083501506,
+          "logic": "ROE 28.6%, Growth 51.2% → decay-adj 15.8%, PER 34.6x → target $899.31",
+          "analysis_summary": {
+            "trigger_code": "BUY_MOAT_BARGAIN",
+            "key_factors": {
+              "avg_roe": 28.6,
+              "eps_growth": 51.2,
+              "compounding_rate": 15.8,
+              "avg_per": 34.6
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 899.3074236251255,
+            "profit_zone_min": 1079.1689083501506,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 15.790000000000001
+        },
+        "lynch": {
+          "verdict": "BUY",
+          "target_price": 1242.4153569237815,
+          "sell_price": 1863.6230353856722,
+          "logic": "Growth 51.2%, PER 29.8 → PEG 0.58",
+          "analysis_summary": {
+            "trigger_code": "BUY_STALWART",
+            "key_factors": {
+              "growth_rate": 51.2,
+              "peg": 0.58,
+              "debt_to_equity": 26.311
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 1242.4153569237815,
+            "profit_zone_min": 1863.6230353856722,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 0.5810659592678297
+        },
+        "graham": {
+          "verdict": "STRONG_BUY",
+          "target_price": 1421.8190292784504,
+          "sell_price": 2122.117954146941,
+          "logic": "EPS $24.26, 성장률 51.2% 반영 → 적정가 $2122.12",
+          "analysis_summary": {
+            "trigger_code": "BUY_DEEP_VALUE",
+            "key_factors": {
+              "eps": 24.26,
+              "eps_growth_rate": 51.2,
+              "graham_number": 2122.12
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 1421.8190292784504,
+            "profit_zone_min": 2122.117954146941,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 2122.117954146941
+        },
+        "fisher": {
+          "verdict": "BUY",
+          "target_price": 644.8227333333333,
+          "sell_price": 762.7116,
+          "logic": "PSR 9.93 vs avg 10.25 → buy target $644.82, max PSR 12.12 → sell at $762.71",
+          "analysis_summary": {
+            "trigger_code": "BUY_PSR_FAIR",
+            "key_factors": {
+              "current_psr": 9.93,
+              "avg_psr": 10.25,
+              "max_psr": 12.12
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 644.8227333333333,
+            "profit_zone_min": 762.7116,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 9.93
+        },
+        "druckenmiller": {
+          "verdict": "HOLD",
+          "target_price": null,
+          "sell_price": 671.4664,
+          "logic": "Price above 200-day MA but pulled back from 52-week high - trend intact but momentum weak",
+          "analysis_summary": {
+            "trigger_code": "HOLD_DIP_OPPORTUNITY",
+            "key_factors": {
+              "price_vs_ma200": 1,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 836.0625,
+            "profit_zone_min": null,
+            "stop_loss": 671.4664
+          },
+          "metric_name": "200D MA",
+          "metric_value": 671.4664
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 479.8,
+          "sell_price": 796.25,
+          "logic": "Price at 61.2% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.61,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 543.09,
+            "profit_zone_min": 732.96,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 61.18502133038394
+        }
+      }
+    },
+    "MSFT": {
+      "ticker": "MSFT",
+      "meta": {
+        "current_price": 483.16,
+        "data_period_used": "3 years (2023-2025)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:11.228Z"
+      },
+      "summary": {
+        "total_score": 63,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 2,
+          "hold": 2,
+          "sell": 1
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "BUY",
+          "target_price": 576.2512031250188,
+          "sell_price": 691.5014437500225,
+          "logic": "ROE 34.9%, Growth 18.4% → decay-adj 15.3%, PER 40.9x → target $576.25",
+          "analysis_summary": {
+            "trigger_code": "BUY_QUALITY_FAIR",
+            "key_factors": {
+              "avg_roe": 34.9,
+              "eps_growth": 18.4,
+              "compounding_rate": 15.3,
+              "avg_per": 40.9
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 576.2512031250188,
+            "profit_zone_min": 691.5014437500225,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 15.292873091969517
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 252.86934001944113,
+          "sell_price": 379.3040100291617,
+          "logic": "Growth 18.4%, PER 34.4 → PEG 1.87",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 18.4,
+              "peg": 1.87,
+              "debt_to_equity": 33.154
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 252.86934001944113,
+            "profit_zone_min": 379.3040100291617,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 1.868581863122167
+        },
+        "graham": {
+          "verdict": "BUY",
+          "target_price": 401.35629116757815,
+          "sell_price": 599.0392405486241,
+          "logic": "EPS $13.75, 성장률 18.4% 반영 → 적정가 $599.04",
+          "analysis_summary": {
+            "trigger_code": "BUY_FAIR_VALUE",
+            "key_factors": {
+              "eps": 13.75,
+              "eps_growth_rate": 18.4,
+              "graham_number": 599.04
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 401.35629116757815,
+            "profit_zone_min": 599.0392405486241,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 599.0392405486241
+        },
+        "fisher": {
+          "verdict": "STRONG_BUY",
+          "target_price": 546.9784000000001,
+          "sell_price": 587.9892,
+          "logic": "PSR 12.98 vs avg 14.49 → buy target $546.98, max PSR 15.58 → sell at $587.99",
+          "analysis_summary": {
+            "trigger_code": "BUY_PSR_BARGAIN",
+            "key_factors": {
+              "current_psr": 12.98,
+              "avg_psr": 14.49,
+              "max_psr": 15.58
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 546.9784000000001,
+            "profit_zone_min": 587.9892,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 12.98
+        },
+        "druckenmiller": {
+          "verdict": "HOLD",
+          "target_price": null,
+          "sell_price": 469.7925,
+          "logic": "Price above 200-day MA but pulled back from 52-week high - trend intact but momentum weak",
+          "analysis_summary": {
+            "trigger_code": "HOLD_DIP_OPPORTUNITY",
+            "key_factors": {
+              "price_vs_ma200": 1.03,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 583.2225000000001,
+            "profit_zone_min": null,
+            "stop_loss": 469.7925
+          },
+          "metric_name": "200D MA",
+          "metric_value": 469.7925
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 344.79,
+          "sell_price": 555.45,
+          "logic": "Price at 65.7% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.66,
+              "is_undervalued": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 386.922,
+            "profit_zone_min": 513.318,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 65.68404063419729
+        }
+      }
+    },
+    "NFLX": {
+      "ticker": "NFLX",
+      "meta": {
+        "current_price": 100.24,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:12.506Z"
+      },
+      "summary": {
+        "total_score": 29,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 0,
+          "buy": 0,
+          "hold": 1,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 35.36208346694621,
+          "sell_price": 42.43450016033545,
+          "logic": "ROE 29.0%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 59.5x → target $35.36",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 29,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 59.5
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 35.36208346694621,
+            "profit_zone_min": 42.43450016033545,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 5.9399999999999995,
+          "sell_price": 8.91,
+          "logic": "Growth 3.0% (min adj), PER 41.8 → PEG 13.92",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 13.92,
+              "debt_to_equity": 65.822
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 5.9399999999999995,
+            "profit_zone_min": 8.91,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 13.922221
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 19.2357,
+          "sell_price": 28.71,
+          "logic": "EPS $1.98, 성장률 3.0% 반영 → 적정가 $28.71",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 1.98,
+              "eps_growth_rate": 3,
+              "graham_number": 28.71
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 19.2357,
+            "profit_zone_min": 28.71,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 28.71
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 86.6984,
+          "sell_price": 104.07360000000001,
+          "logic": "PSR 11.72 vs avg 9.76 → buy target $86.70, max PSR 11.72 → sell at $104.07",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 11.72,
+              "avg_psr": 9.76,
+              "max_psr": 11.72
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 86.6984,
+            "profit_zone_min": 104.07360000000001,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 11.72
+        },
+        "druckenmiller": {
+          "verdict": "SELL",
+          "target_price": null,
+          "sell_price": 113.41974,
+          "logic": "Price $100.24 below 200-day MA ($113.42) - trend broken",
+          "analysis_summary": {
+            "trigger_code": "SELL_TREND_BROKEN",
+            "key_factors": {
+              "price_vs_ma200": 0.88,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": null,
+            "profit_zone_min": null,
+            "stop_loss": 113.41974
+          },
+          "metric_name": "200D MA",
+          "metric_value": 113.41974
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 82.11,
+          "sell_price": 134.115,
+          "logic": "Price at 34.9% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.35,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 92.511,
+            "profit_zone_min": 123.71400000000001,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 34.86203249687529
+        }
+      }
+    },
+    "NVDA": {
+      "ticker": "NVDA",
+      "meta": {
+        "current_price": 182.41,
+        "data_period_used": "3 years (2023-2025)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:13.732Z"
+      },
+      "summary": {
+        "total_score": 46,
+        "consensus_verdict": "HOLD",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 2,
+          "sell": 3
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 111.29695779148358,
+          "sell_price": 133.55634934978028,
+          "logic": "ROE 75.6%, Growth 13.7% → decay-adj 11.8%, PER 162.6x → target $111.30",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 75.6,
+              "eps_growth": 13.7,
+              "compounding_rate": 11.8,
+              "avg_per": 162.6
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 111.29695779148358,
+            "profit_zone_min": 133.55634934978028,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 11.768648154398473
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 40.526931382692645,
+          "sell_price": 60.790397074038964,
+          "logic": "Growth 13.7%, PER 45.3 → PEG 3.31",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 13.7,
+              "peg": 3.31,
+              "debt_to_equity": 9.102
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 40.526931382692645,
+            "profit_zone_min": 60.790397074038964,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 3.305914248844822
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 70.04955138273402,
+          "sell_price": 104.55156922796122,
+          "logic": "EPS $2.96, 성장률 13.7% 반영 → 적정가 $104.55",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 2.96,
+              "eps_growth_rate": 13.7,
+              "graham_number": 104.55
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 70.04955138273402,
+            "profit_zone_min": 104.55156922796122,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 104.55156922796122
+        },
+        "fisher": {
+          "verdict": "STRONG_BUY",
+          "target_price": 269.1191333333333,
+          "sell_price": 349.7374,
+          "logic": "PSR 32.96 vs avg 51.16 → buy target $269.12, max PSR 66.49 → sell at $349.74",
+          "analysis_summary": {
+            "trigger_code": "BUY_PSR_BARGAIN",
+            "key_factors": {
+              "current_psr": 32.96,
+              "avg_psr": 51.16,
+              "max_psr": 66.49
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 269.1191333333333,
+            "profit_zone_min": 349.7374,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 32.96
+        },
+        "druckenmiller": {
+          "verdict": "HOLD",
+          "target_price": null,
+          "sell_price": 154.7374,
+          "logic": "Price above 200-day MA but pulled back from 52-week high - trend intact but momentum weak",
+          "analysis_summary": {
+            "trigger_code": "HOLD_DIP_OPPORTUNITY",
+            "key_factors": {
+              "price_vs_ma200": 1.18,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 222.7995,
+            "profit_zone_min": null,
+            "stop_loss": 154.7374
+          },
+          "metric_name": "200D MA",
+          "metric_value": 154.7374
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 86.62,
+          "sell_price": 212.19,
+          "logic": "Price at 76.3% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.76,
+              "is_undervalued": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 111.73400000000001,
+            "profit_zone_min": 187.07600000000002,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 76.28414430198296
+        }
+      }
+    },
+    "TSLA": {
+      "ticker": "TSLA",
+      "meta": {
+        "current_price": 455,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:15.084Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 0,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 39.11260747101626,
+          "sell_price": 46.93512896521951,
+          "logic": "ROE 24.0%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 116.0x → target $39.11",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 24,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 116
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 39.11260747101626,
+            "profit_zone_min": 46.93512896521951,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 6.57,
+          "sell_price": 9.855,
+          "logic": "Growth 3.0% (min adj), PER 311.6 → PEG 103.88",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 103.88,
+              "debt_to_equity": 17.082
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 6.57,
+            "profit_zone_min": 9.855,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 103.88127666666666
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 21.275850000000002,
+          "sell_price": 31.755,
+          "logic": "EPS $2.19, 성장률 3.0% 반영 → 적정가 $31.75",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 2.19,
+              "eps_growth_rate": 3,
+              "graham_number": 31.75
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 21.275850000000002,
+            "profit_zone_min": 31.755,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 31.755
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 338.97709999999995,
+          "sell_price": 408.8952,
+          "logic": "PSR 14.64 vs avg 12.14 → buy target $338.98, max PSR 14.64 → sell at $408.90",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 14.64,
+              "avg_psr": 12.14,
+              "max_psr": 14.64
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 338.97709999999995,
+            "profit_zone_min": 408.8952,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 14.64
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 342.5899,
+          "logic": "Price $455.00 above 200-day MA ($342.59) and near 52-week high ($488.54) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.33,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 512.9670000000001,
+            "profit_zone_min": null,
+            "stop_loss": 342.5899
+          },
+          "metric_name": "200D MA",
+          "metric_value": 342.5899
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 214.25,
+          "sell_price": 488.54,
+          "logic": "Price at 87.8% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.88,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 269.108,
+            "profit_zone_min": 433.682,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 87.77206606146778
+        }
+      }
+    },
+    "BRK-B": {
+      "ticker": "BRK-B",
+      "meta": {
+        "current_price": 504.34,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:16.349Z"
+      },
+      "summary": {
+        "total_score": 71,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 3,
+          "buy": 0,
+          "hold": 2,
+          "sell": 1
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "STRONG_BUY",
+          "target_price": 257142.371869666,
+          "sell_price": 308570.8462435992,
+          "logic": "ROE 16.6%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 11.6x → target $257142.37",
+          "analysis_summary": {
+            "trigger_code": "BUY_MOAT_BARGAIN",
+            "key_factors": {
+              "avg_roe": 16.6,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 11.6
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 257142.371869666,
+            "profit_zone_min": 308570.8462435992,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 185700.27,
+          "sell_price": 278550.40499999997,
+          "logic": "Growth 3.0% (min adj), PER 16.1 → PEG 5.38",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 5.38,
+              "debt_to_equity": 18.166
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 185700.27,
+            "profit_zone_min": 278550.40499999997,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 5.376185666666667
+        },
+        "graham": {
+          "verdict": "STRONG_BUY",
+          "target_price": 601359.3743499999,
+          "sell_price": 897551.3049999999,
+          "logic": "EPS $61900.09, 성장률 3.0% 반영 → 적정가 $897551.30",
+          "analysis_summary": {
+            "trigger_code": "BUY_DEEP_VALUE",
+            "key_factors": {
+              "eps": 61900.09,
+              "eps_growth_rate": 3,
+              "graham_number": 897551.3
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 601359.3743499999,
+            "profit_zone_min": 897551.3049999999,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 897551.3049999999
+        },
+        "fisher": {
+          "verdict": "HOLD",
+          "target_price": 758683.7220000001,
+          "sell_price": 775045.8,
+          "logic": "PSR 2.98 vs avg 2.94 → buy target $758683.72, max PSR 3.00 → sell at $775045.80",
+          "analysis_summary": {
+            "trigger_code": "HOLD_PSR_BAND",
+            "key_factors": {
+              "current_psr": 2.98,
+              "avg_psr": 2.94,
+              "max_psr": 3
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 758683.7220000001,
+            "profit_zone_min": 775045.8,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 2.98
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 498.176,
+          "logic": "Price $504.34 above 200-day MA ($498.18) and near 52-week high ($542.07) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.01,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 569.1735000000001,
+            "profit_zone_min": null,
+            "stop_loss": 498.176
+          },
+          "metric_name": "200D MA",
+          "metric_value": 498.176
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 440.1,
+          "sell_price": 542.07,
+          "logic": "Price at 63.0% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.63,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 460.494,
+            "profit_zone_min": 521.676,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 62.99892125134837
+        }
+      }
+    },
+    "JNJ": {
+      "ticker": "JNJ",
+      "meta": {
+        "current_price": 201.93,
+        "data_period_used": "3 years (2023-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:17.618Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 0,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 57.71314671960783,
+          "sell_price": 69.2557760635294,
+          "logic": "ROE 18.0%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 19.4x → target $57.71",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 18,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 19.4
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 57.71314671960783,
+            "profit_zone_min": 69.2557760635294,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 24.990000000000002,
+          "sell_price": 37.485,
+          "logic": "Growth 3.0% (min adj), PER 19.5 → PEG 6.50",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 6.5,
+              "debt_to_equity": 57.766
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 24.990000000000002,
+            "profit_zone_min": 37.485,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 6.497104
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 80.92595,
+          "sell_price": 120.785,
+          "logic": "EPS $8.33, 성장률 3.0% 반영 → 적정가 $120.78",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 8.33,
+              "eps_growth_rate": 3,
+              "graham_number": 120.78
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 80.92595,
+            "profit_zone_min": 120.785,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 120.785
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 173.05066666666667,
+          "sell_price": 205.10160000000002,
+          "logic": "PSR 5.61 vs avg 4.73 → buy target $173.05, max PSR 5.61 → sell at $205.10",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 5.61,
+              "avg_psr": 4.73,
+              "max_psr": 5.61
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 173.05066666666667,
+            "profit_zone_min": 205.10160000000002,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 5.61
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 170.2741,
+          "logic": "Price $201.93 above 200-day MA ($170.27) and near 52-week high ($207.81) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.19,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 218.2005,
+            "profit_zone_min": null,
+            "stop_loss": 170.2741
+          },
+          "metric_name": "200D MA",
+          "metric_value": 170.2741
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 140.68,
+          "sell_price": 207.81,
+          "logic": "Price at 91.2% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.91,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 154.106,
+            "profit_zone_min": 194.38400000000001,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 91.24087591240877
+        }
+      }
+    },
+    "JPM": {
+      "ticker": "JPM",
+      "meta": {
+        "current_price": 315.04,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:18.873Z"
+      },
+      "summary": {
+        "total_score": 58,
+        "consensus_verdict": "HOLD",
+        "opinion_breakdown": {
+          "strong_buy": 2,
+          "buy": 1,
+          "hold": 0,
+          "sell": 3
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 219.96216799993275,
+          "sell_price": 263.9546015999193,
+          "logic": "ROE 21.5%, Growth 24.4% → decay-adj 12.2%, PER 15.2x → target $219.96",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 21.5,
+              "eps_growth": 24.4,
+              "compounding_rate": 12.2,
+              "avg_per": 15.2
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 219.96216799993275,
+            "profit_zone_min": 263.9546015999193,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 12.226666666666667
+        },
+        "lynch": {
+          "verdict": "BUY",
+          "target_price": 450.4864341811825,
+          "sell_price": 675.7296512717737,
+          "logic": "Growth 24.4%, PER 15.6 → PEG 0.64",
+          "analysis_summary": {
+            "trigger_code": "BUY_STALWART",
+            "key_factors": {
+              "growth_rate": 24.4,
+              "peg": 0.64,
+              "debt_to_equity": 0
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 450.4864341811825,
+            "profit_zone_min": 675.7296512717737,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 0.6387171838437107
+        },
+        "graham": {
+          "verdict": "STRONG_BUY",
+          "target_price": 660.2753704318285,
+          "sell_price": 985.4856275101918,
+          "logic": "EPS $18.44, 성장률 24.4% 반영 → 적정가 $985.49",
+          "analysis_summary": {
+            "trigger_code": "BUY_DEEP_VALUE",
+            "key_factors": {
+              "eps": 18.44,
+              "eps_growth_rate": 24.4,
+              "graham_number": 985.49
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 660.2753704318285,
+            "profit_zone_min": 985.4856275101918,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 985.4856275101918
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 267.03110000000004,
+          "sell_price": 299.0995,
+          "logic": "PSR 4.85 vs avg 4.33 → buy target $267.03, max PSR 4.85 → sell at $299.10",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 4.85,
+              "avg_psr": 4.33,
+              "max_psr": 4.85
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 267.03110000000004,
+            "profit_zone_min": 299.0995,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 4.85
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 279.4577,
+          "logic": "Price $315.04 above 200-day MA ($279.46) and near 52-week high ($322.25) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.13,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 338.3625,
+            "profit_zone_min": null,
+            "stop_loss": 279.4577
+          },
+          "metric_name": "200D MA",
+          "metric_value": 279.4577
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 202.16,
+          "sell_price": 322.25,
+          "logic": "Price at 94.0% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.94,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 226.178,
+            "profit_zone_min": 298.23199999999997,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 93.99616953951205
+        }
+      }
+    },
+    "LLY": {
+      "ticker": "LLY",
+      "meta": {
+        "current_price": 1010.31,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:20.087Z"
+      },
+      "summary": {
+        "total_score": 63,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 2,
+          "buy": 1,
+          "hold": 1,
+          "sell": 2
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "STRONG_BUY",
+          "target_price": 2254.2888138262642,
+          "sell_price": 2705.146576591517,
+          "logic": "ROE 51.9%, Growth 40.6% → decay-adj 27.4%, PER 76.4x → target $2254.29",
+          "analysis_summary": {
+            "trigger_code": "BUY_MOAT_BARGAIN",
+            "key_factors": {
+              "avg_roe": 51.9,
+              "eps_growth": 40.6,
+              "compounding_rate": 27.4,
+              "avg_per": 76.4
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 2254.2888138262642,
+            "profit_zone_min": 2705.146576591517,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 27.441666666666666
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 655.9182480744053,
+          "sell_price": 983.8773721116079,
+          "logic": "Growth 40.6%, PER 49.5 → PEG 1.22 (debt penalty)",
+          "analysis_summary": {
+            "trigger_code": "SELL_DEBT_RISK",
+            "key_factors": {
+              "growth_rate": 40.6,
+              "peg": 1.22,
+              "debt_to_equity": 178.516
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 655.9182480744053,
+            "profit_zone_min": 983.8773721116079,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 1.2180510016080095
+        },
+        "graham": {
+          "verdict": "BUY",
+          "target_price": 821.2376920073956,
+          "sell_price": 1225.7278985185008,
+          "logic": "EPS $16.14, 성장률 40.6% 반영 → 적정가 $1225.73",
+          "analysis_summary": {
+            "trigger_code": "BUY_FAIR_VALUE",
+            "key_factors": {
+              "eps": 16.14,
+              "eps_growth_rate": 40.6,
+              "graham_number": 1225.73
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 821.2376920073956,
+            "profit_zone_min": 1225.7278985185008,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 1225.7278985185008
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 1118.2929333333334,
+          "sell_price": 1124.4374,
+          "logic": "PSR 22.57 vs avg 22.45 → buy target $1118.29, max PSR 22.57 → sell at $1124.44",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 22.57,
+              "avg_psr": 22.45,
+              "max_psr": 22.57
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 1118.2929333333334,
+            "profit_zone_min": 1124.4374,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 22.57
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 811.9354,
+          "logic": "Price $1010.31 above 200-day MA ($811.94) and near 52-week high ($1111.99) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.24,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 1167.5895,
+            "profit_zone_min": null,
+            "stop_loss": 811.9354
+          },
+          "metric_name": "200D MA",
+          "metric_value": 811.9354
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 623.78,
+          "sell_price": 1111.99,
+          "logic": "Price at 79.2% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.79,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 721.422,
+            "profit_zone_min": 1014.348,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 79.17289690911696
+        }
+      }
+    },
+    "MA": {
+      "ticker": "MA",
+      "meta": {
+        "current_price": 545.52,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:21.341Z"
+      },
+      "summary": {
+        "total_score": 54,
+        "consensus_verdict": "HOLD",
+        "opinion_breakdown": {
+          "strong_buy": 0,
+          "buy": 3,
+          "hold": 1,
+          "sell": 2
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "BUY",
+          "target_price": 585.9672845157993,
+          "sell_price": 703.1607414189591,
+          "logic": "ROE 135.3%, Growth 17.7% → decay-adj 14.8%, PER 40.8x → target $585.97",
+          "analysis_summary": {
+            "trigger_code": "BUY_QUALITY_FAIR",
+            "key_factors": {
+              "avg_roe": 135.3,
+              "eps_growth": 17.7,
+              "compounding_rate": 14.8,
+              "avg_per": 40.8
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 585.9672845157993,
+            "profit_zone_min": 703.1607414189591,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 14.76151108848433
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 259.5719770385999,
+          "sell_price": 389.3579655578999,
+          "logic": "Growth 17.7%, PER 34.8 → PEG 1.97 (debt penalty)",
+          "analysis_summary": {
+            "trigger_code": "SELL_DEBT_RISK",
+            "key_factors": {
+              "growth_rate": 17.7,
+              "peg": 1.97,
+              "debt_to_equity": 239.715
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 259.5719770385999,
+            "profit_zone_min": 389.3579655578999,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 1.9700950612398136
+        },
+        "graham": {
+          "verdict": "BUY",
+          "target_price": 416.5845607567854,
+          "sell_price": 621.7680011295304,
+          "logic": "EPS $14.68, 성장률 17.7% 반영 → 적정가 $621.77",
+          "analysis_summary": {
+            "trigger_code": "BUY_FAIR_VALUE",
+            "key_factors": {
+              "eps": 14.68,
+              "eps_growth_rate": 17.7,
+              "graham_number": 621.77
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 416.5845607567854,
+            "profit_zone_min": 621.7680011295304,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 621.7680011295304
+        },
+        "fisher": {
+          "verdict": "BUY",
+          "target_price": 562.7215,
+          "sell_price": 592.9089,
+          "logic": "PSR 17.55 vs avg 18.52 → buy target $562.72, max PSR 19.51 → sell at $592.91",
+          "analysis_summary": {
+            "trigger_code": "BUY_PSR_FAIR",
+            "key_factors": {
+              "current_psr": 17.55,
+              "avg_psr": 18.52,
+              "max_psr": 19.51
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 562.7215,
+            "profit_zone_min": 592.9089,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 17.55
+        },
+        "druckenmiller": {
+          "verdict": "SELL",
+          "target_price": null,
+          "sell_price": 559.73883,
+          "logic": "Price $545.52 below 200-day MA ($559.74) - trend broken",
+          "analysis_summary": {
+            "trigger_code": "SELL_TREND_BROKEN",
+            "key_factors": {
+              "price_vs_ma200": 0.97,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": null,
+            "profit_zone_min": null,
+            "stop_loss": 559.73883
+          },
+          "metric_name": "200D MA",
+          "metric_value": 559.73883
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 465.59,
+          "sell_price": 601.77,
+          "logic": "Price at 58.7% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.59,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 492.82599999999996,
+            "profit_zone_min": 574.534,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 58.694375091790285
+        }
+      }
+    },
+    "ORCL": {
+      "ticker": "ORCL",
+      "meta": {
+        "current_price": 217.58,
+        "data_period_used": "3 years (2023-2025)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:22.583Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 0,
+          "buy": 0,
+          "hold": 3,
+          "sell": 3
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 169.46056434895752,
+          "sell_price": 203.35267721874902,
+          "logic": "ROE 62.1%, Growth 15.9% → decay-adj 13.4%, PER 44.0x → target $169.46",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 62.1,
+              "eps_growth": 15.9,
+              "compounding_rate": 13.4,
+              "avg_per": 44
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 169.46056434895752,
+            "profit_zone_min": 203.35267721874902,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 13.397274776809674
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 70.27323634835581,
+          "sell_price": 105.40985452253372,
+          "logic": "Growth 15.9%, PER 50.2 → PEG 3.17 (debt penalty)",
+          "analysis_summary": {
+            "trigger_code": "SELL_DEBT_RISK",
+            "key_factors": {
+              "growth_rate": 15.9,
+              "peg": 3.17,
+              "debt_to_equity": 452.534
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 70.27323634835581,
+            "profit_zone_min": 105.40985452253372,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 3.1677059416548174
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 116.32776909368263,
+          "sell_price": 173.62353596072035,
+          "logic": "EPS $4.43, 성장률 15.9% 반영 → 적정가 $173.62",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 4.43,
+              "eps_growth_rate": 15.9,
+              "graham_number": 173.62
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 116.32776909368263,
+            "profit_zone_min": 173.62353596072035,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 173.62353596072035
+        },
+        "fisher": {
+          "verdict": "HOLD",
+          "target_price": 183.40803333333335,
+          "sell_price": 210.5153,
+          "logic": "PSR 10.03 vs avg 9.16 → buy target $183.41, max PSR 10.51 → sell at $210.52",
+          "analysis_summary": {
+            "trigger_code": "HOLD_PSR_BAND",
+            "key_factors": {
+              "current_psr": 10.03,
+              "avg_psr": 9.16,
+              "max_psr": 10.51
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 183.40803333333335,
+            "profit_zone_min": 210.5153,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 10.03
+        },
+        "druckenmiller": {
+          "verdict": "HOLD",
+          "target_price": null,
+          "sell_price": 211.87366,
+          "logic": "Price above 200-day MA but pulled back from 52-week high - trend intact but momentum weak",
+          "analysis_summary": {
+            "trigger_code": "HOLD_DIP_OPPORTUNITY",
+            "key_factors": {
+              "price_vs_ma200": 1.03,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 363.00600000000003,
+            "profit_zone_min": null,
+            "stop_loss": 211.87366
+          },
+          "metric_name": "200D MA",
+          "metric_value": 211.87366
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 118.86,
+          "sell_price": 345.72,
+          "logic": "Price at 43.5% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.44,
+              "is_undervalued": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 164.232,
+            "profit_zone_min": 300.348,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 43.515824737723705
+        }
+      }
+    },
+    "TSM": {
+      "ticker": "TSM",
+      "meta": {
+        "current_price": 294.72,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:23.852Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 0,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 102.9324889886314,
+          "sell_price": 123.51898678635769,
+          "logic": "ROE 35.2%, Growth 7.5% → decay-adj 7.1%, PER 29.1x → target $102.93",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 35.2,
+              "eps_growth": 7.5,
+              "compounding_rate": 7.1,
+              "avg_per": 29.1
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 102.9324889886314,
+            "profit_zone_min": 123.51898678635769,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 7.0882455032942975
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 53.81852969372628,
+          "sell_price": 80.72779454058943,
+          "logic": "Growth 7.5%, PER 30.5 → PEG 4.09",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 7.5,
+              "peg": 4.09,
+              "debt_to_equity": 20.436
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 53.81852969372628,
+            "profit_zone_min": 80.72779454058943,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 4.090429542962081
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 113.25181478959324,
+          "sell_price": 169.03255938745258,
+          "logic": "EPS $7.22, 성장률 7.5% 반영 → 적정가 $169.03",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 7.22,
+              "eps_growth_rate": 7.5,
+              "graham_number": 169.03
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 113.25181478959324,
+            "profit_zone_min": 169.03255938745258,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 169.03255938745258
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 176.06178,
+          "sell_price": 230.35788,
+          "logic": "PSR 12.94 vs avg 9.89 → buy target $176.06, max PSR 12.94 → sell at $230.36",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 12.94,
+              "avg_psr": 9.89,
+              "max_psr": 12.94
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 176.06178,
+            "profit_zone_min": 230.35788,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 12.94
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 228.418,
+          "logic": "Price $294.72 above 200-day MA ($228.42) and near 52-week high ($311.37) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.29,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 326.93850000000003,
+            "profit_zone_min": null,
+            "stop_loss": 228.418
+          },
+          "metric_name": "200D MA",
+          "metric_value": 228.418
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 134.25,
+          "sell_price": 311.37,
+          "logic": "Price at 90.6% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.91,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 169.674,
+            "profit_zone_min": 275.946,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 90.59959349593497
+        }
+      }
+    },
+    "V": {
+      "ticker": "V",
+      "meta": {
+        "current_price": 331.24,
+        "data_period_used": "3 years (2023-2025)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:25.109Z"
+      },
+      "summary": {
+        "total_score": 67,
+        "consensus_verdict": "BUY",
+        "opinion_breakdown": {
+          "strong_buy": 2,
+          "buy": 1,
+          "hold": 2,
+          "sell": 1
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "STRONG_BUY",
+          "target_price": 807.7098628760984,
+          "sell_price": 969.2518354513181,
+          "logic": "ROE 52.5%, Growth 29.0% → decay-adj 23.3%, PER 33.6x → target $807.71",
+          "analysis_summary": {
+            "trigger_code": "BUY_MOAT_BARGAIN",
+            "key_factors": {
+              "avg_roe": 52.5,
+              "eps_growth": 29,
+              "compounding_rate": 23.3,
+              "avg_per": 33.6
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 807.7098628760984,
+            "profit_zone_min": 969.2518354513181,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 23.284231670246776
+        },
+        "lynch": {
+          "verdict": "HOLD",
+          "target_price": 348.2572503016785,
+          "sell_price": 522.3858754525177,
+          "logic": "Growth 29.0%, PER 32.5 → PEG 1.12",
+          "analysis_summary": {
+            "trigger_code": "HOLD_FAIR_VALUE",
+            "key_factors": {
+              "growth_rate": 29,
+              "peg": 1.12,
+              "debt_to_equity": 68.807
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 348.2572503016785,
+            "profit_zone_min": 522.3858754525177,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 1.1180510228077323
+        },
+        "graham": {
+          "verdict": "STRONG_BUY",
+          "target_price": 485.5703809067375,
+          "sell_price": 724.7319118011008,
+          "logic": "EPS $11.99, 성장률 29.0% 반영 → 적정가 $724.73",
+          "analysis_summary": {
+            "trigger_code": "BUY_DEEP_VALUE",
+            "key_factors": {
+              "eps": 11.99,
+              "eps_growth_rate": 29,
+              "graham_number": 724.73
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 485.5703809067375,
+            "profit_zone_min": 724.7319118011008,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 724.7319118011008
+        },
+        "fisher": {
+          "verdict": "BUY",
+          "target_price": 349.8165000000001,
+          "sell_price": 376.882,
+          "logic": "PSR 16.00 vs avg 17.19 → buy target $349.82, max PSR 18.52 → sell at $376.88",
+          "analysis_summary": {
+            "trigger_code": "BUY_PSR_FAIR",
+            "key_factors": {
+              "current_psr": 16,
+              "avg_psr": 17.19,
+              "max_psr": 18.52
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 349.8165000000001,
+            "profit_zone_min": 376.882,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 16
+        },
+        "druckenmiller": {
+          "verdict": "SELL",
+          "target_price": null,
+          "sell_price": 344.94696,
+          "logic": "Price $331.24 below 200-day MA ($344.95) - trend broken",
+          "analysis_summary": {
+            "trigger_code": "SELL_TREND_BROKEN",
+            "key_factors": {
+              "price_vs_ma200": 0.96,
+              "near_52w_high": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": null,
+            "profit_zone_min": null,
+            "stop_loss": 344.94696
+          },
+          "metric_name": "200D MA",
+          "metric_value": 344.94696
+        },
+        "marks": {
+          "verdict": "HOLD",
+          "target_price": 299,
+          "sell_price": 375.51,
+          "logic": "Price at 42.1% of 52-week range (mid-cycle) - neutral positioning",
+          "analysis_summary": {
+            "trigger_code": "HOLD_MID_CYCLE",
+            "key_factors": {
+              "cycle_position": 0.42,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 314.302,
+            "profit_zone_min": 360.20799999999997,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 42.13828257744087
+        }
+      }
+    },
+    "WMT": {
+      "ticker": "WMT",
+      "meta": {
+        "current_price": 115.11,
+        "data_period_used": "3 years (2023-2025)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:26.408Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 0,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 38.06897356457578,
+          "sell_price": 45.68276827749093,
+          "logic": "ROE 14.5%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 44.2x → target $38.07",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 14.5,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 44.2
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 38.06897356457578,
+            "profit_zone_min": 45.68276827749093,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 7.23,
+          "sell_price": 10.845,
+          "logic": "Growth 3.0% (min adj), PER 40.4 → PEG 13.46",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 13.46,
+              "debt_to_equity": 66.747
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 7.23,
+            "profit_zone_min": 10.845,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 13.463159
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 23.41315,
+          "sell_price": 34.945,
+          "logic": "EPS $2.41, 성장률 3.0% 반영 → 적정가 $34.95",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 2.41,
+              "eps_growth_rate": 3,
+              "graham_number": 34.95
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 23.41315,
+            "profit_zone_min": 34.945,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 34.945
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 93.53970000000001,
+          "sell_price": 108.7083,
+          "logic": "PSR 1.29 vs avg 1.11 → buy target $93.54, max PSR 1.29 → sell at $108.71",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 1.29,
+              "avg_psr": 1.11,
+              "max_psr": 1.29
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 93.53970000000001,
+            "profit_zone_min": 108.7083,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 1.29
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 98.23185,
+          "logic": "Price $115.11 above 200-day MA ($98.23) and near 52-week high ($116.27) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.17,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 122.0835,
+            "profit_zone_min": null,
+            "stop_loss": 98.23185
+          },
+          "metric_name": "200D MA",
+          "metric_value": 98.23185
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 79.81,
+          "sell_price": 116.27,
+          "logic": "Price at 96.8% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.97,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 87.102,
+            "profit_zone_min": 108.978,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 96.81843115743281
+        }
+      }
+    },
+    "XOM": {
+      "ticker": "XOM",
+      "meta": {
+        "current_price": 116.54,
+        "data_period_used": "3 years (2022-2024)",
+        "currency": "USD",
+        "timestamp": "2025-12-06T14:52:27.668Z"
+      },
+      "summary": {
+        "total_score": 38,
+        "consensus_verdict": "SELL",
+        "opinion_breakdown": {
+          "strong_buy": 1,
+          "buy": 0,
+          "hold": 0,
+          "sell": 5
+        }
+      },
+      "results": {
+        "buffett": {
+          "verdict": "SELL",
+          "target_price": 31.43503479975126,
+          "sell_price": 37.72204175970151,
+          "logic": "ROE 15.6%, Growth 3.0% (adj min) → decay-adj 3.8%, PER 11.2x → target $31.44",
+          "analysis_summary": {
+            "trigger_code": "SELL_MOAT_EXPENSIVE",
+            "key_factors": {
+              "avg_roe": 15.6,
+              "eps_growth": 3,
+              "compounding_rate": 3.8,
+              "avg_per": 11.2
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 31.43503479975126,
+            "profit_zone_min": 37.72204175970151,
+            "stop_loss": null
+          },
+          "metric_name": "Compounding Rate",
+          "metric_value": 3.75
+        },
+        "lynch": {
+          "verdict": "SELL",
+          "target_price": 23.580000000000002,
+          "sell_price": 35.370000000000005,
+          "logic": "Growth 3.0% (min adj), PER 16.9 → PEG 5.65",
+          "analysis_summary": {
+            "trigger_code": "SELL_PEG_EXPENSIVE",
+            "key_factors": {
+              "growth_rate": 3,
+              "peg": 5.65,
+              "debt_to_equity": 15.672
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 23.580000000000002,
+            "profit_zone_min": 35.370000000000005,
+            "stop_loss": null
+          },
+          "metric_name": "PEG Ratio",
+          "metric_value": 5.6463176666666675
+        },
+        "graham": {
+          "verdict": "SELL",
+          "target_price": 76.35990000000001,
+          "sell_price": 113.97,
+          "logic": "EPS $7.86, 성장률 3.0% 반영 → 적정가 $113.97",
+          "analysis_summary": {
+            "trigger_code": "SELL_OVERPRICED",
+            "key_factors": {
+              "eps": 7.86,
+              "eps_growth_rate": 3,
+              "graham_number": 113.97
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 76.35990000000001,
+            "profit_zone_min": 113.97,
+            "stop_loss": null
+          },
+          "metric_name": "Graham Number",
+          "metric_value": 113.97
+        },
+        "fisher": {
+          "verdict": "SELL",
+          "target_price": 102.60900000000001,
+          "sell_price": 113.65920000000001,
+          "logic": "PSR 1.44 vs avg 1.30 → buy target $102.61, max PSR 1.44 → sell at $113.66",
+          "analysis_summary": {
+            "trigger_code": "SELL_PSR_EXPENSIVE",
+            "key_factors": {
+              "current_psr": 1.44,
+              "avg_psr": 1.3,
+              "max_psr": 1.44
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 102.60900000000001,
+            "profit_zone_min": 113.65920000000001,
+            "stop_loss": null
+          },
+          "metric_name": "PSR",
+          "metric_value": 1.44
+        },
+        "druckenmiller": {
+          "verdict": "STRONG_BUY",
+          "target_price": null,
+          "sell_price": 110.91165,
+          "logic": "Price $116.54 above 200-day MA ($110.91) and near 52-week high ($120.81) - strong uptrend",
+          "analysis_summary": {
+            "trigger_code": "BUY_TREND_BREAKOUT",
+            "key_factors": {
+              "price_vs_ma200": 1.05,
+              "near_52w_high": true
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 126.85050000000001,
+            "profit_zone_min": null,
+            "stop_loss": 110.91165
+          },
+          "metric_name": "200D MA",
+          "metric_value": 110.91165
+        },
+        "marks": {
+          "verdict": "SELL",
+          "target_price": 97.8,
+          "sell_price": 120.81,
+          "logic": "Price at 81.4% of 52-week range (top) - cycle top risk, consider taking profits",
+          "analysis_summary": {
+            "trigger_code": "SELL_EUPHORIA_TOP",
+            "key_factors": {
+              "cycle_position": 0.81,
+              "is_undervalued": false
+            }
+          },
+          "price_guide": {
+            "buy_zone_max": 102.402,
+            "profit_zone_min": 116.208,
+            "stop_loss": null
+          },
+          "metric_name": "Price Position",
+          "metric_value": 81.44285093437638
+        }
+      }
+    }
+  }
+}

@@ -13,7 +13,8 @@ import type { LocalFinancialYear } from '@/lib/types/combined-stock-data';
 // Static imports for all JSON files
 // Turbopack can analyze these at build time
 const tickerData: Record<string, () => Promise<{ default: LocalFinancialYear[] }>> = {
-  // NASDAQ (9 stocks)
+  // NASDAQ (10 stocks)
+  'AAPL': () => import('@/data/stocks/finance/nasdaq/AAPL_애플.json'),
   'AMZN': () => import('@/data/stocks/finance/nasdaq/AMZN_아마존닷컴.json'),
   'AVGO': () => import('@/data/stocks/finance/nasdaq/AVGO_브로드컴.json'),
   'GOOG': () => import('@/data/stocks/finance/nasdaq/GOOG_알파벳.json'),

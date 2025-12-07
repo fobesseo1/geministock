@@ -117,18 +117,16 @@ export function TickerAutocomplete({
               ))}
             </CommandGroup>
 
-            {filteredStocks.length === 0 && search && (
-              <CommandEmpty>No stocks found.</CommandEmpty>
-            )}
+            {filteredStocks.length === 0 && search && <CommandEmpty>No stocks found.</CommandEmpty>}
           </CommandList>
         )}
       </Command>
 
-      {value && (
+      {/* {value && (
         <div className="mt-2 text-xs text-gray-500">
           Selected: <span className="font-semibold">{value}</span>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

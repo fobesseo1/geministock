@@ -3,7 +3,14 @@
 import { useState, useEffect } from 'react';
 import { TickerAutocomplete } from '@/components/TickerAutocomplete';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { ChevronRight, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import {
+  ChevronRight,
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
+  ArrowRight,
+  Rocket,
+} from 'lucide-react';
 import type { InvestmentAnalysisResult, AlgorithmResult } from '@/lib/types/investment-analysis';
 
 // Type aliases for code readability
@@ -221,15 +228,36 @@ function GuruCard({
   currentPrice: number;
   onClick: () => void;
 }) {
+  // Druckenmiller 전용 아이콘 매핑 함수
+  const getTrendIcon = (status: string) => {
+    switch (status) {
+      case 'Breakout':
+        return <Rocket className="w-5 h-5 text-[#34C759]" />; // 🚀 대체
+      case 'Uptrend':
+        return <TrendingUp className="w-5 h-5 text-[#34C759]" />; // ↗ 대체
+      case 'Risky':
+        return <AlertTriangle className="w-5 h-5 text-[#FFCC00]" />; // ⚠️ 대체
+      case 'Broken':
+        return <TrendingDown className="w-5 h-5 text-[#FF3B30]" />; // ↘ 대체
+      case 'Neutral':
+        return <ArrowRight className="w-5 h-5 text-gray-400" />; // → 대체
+      default:
+        return <ArrowRight className="w-5 h-5 text-gray-400" />;
+    }
+  };
+
   const getKeyPrice = () => {
-    // Druckenmiller는 가격 대신 추세 상태를 표시 (추세 추종 전략)
+    // 1. Druckenmiller: 가격 대신 추세 상태 + 아이콘 표시
     if (persona.key === 'druckenmiller') {
-      const trendStatus = result.trend_status || '→ Consolidating';
+      const trendStatus = result.trend_status || 'Neutral';
       const trendLabel = result.trend_label || 'Wait & Watch';
       const trendSignal = result.trend_signal || 'HOLD';
 
       return {
-        value: trendStatus,
+        // value 부분에 텍스트 대신 컴포넌트(아이콘+텍스트)를 렌더링하기 위해 null 처리하거나
+        // 아래 return 문에서 별도로 처리
+        text: trendStatus,
+        icon: getTrendIcon(trendStatus),
         label: trendLabel,
         color:
           trendSignal === 'BUY'
@@ -240,23 +268,36 @@ function GuruCard({
       };
     }
 
-    // 나머지 5명의 guru는 모두 API의 fair_price 사용
+    // 2. Lynch 및 다른 Guru들
+    const isBuySignal = result.verdict === 'BUY' || result.verdict === 'STRONG_BUY';
+    if (isBuySignal) {
+      const buyLimit =
+        result.price_guide?.buy_zone_max || result.target_price || result.fair_price || 0;
+      return {
+        text: `$${buyLimit.toFixed(2)}`,
+        icon: null,
+        label: 'Buy Up To',
+        color: 'text-[#34C759]',
+      };
+    }
+
     const fairPrice = result.fair_price || currentPrice;
     return {
-      value: fairPrice ? `$${fairPrice.toFixed(2)}` : 'N/A',
+      text: fairPrice ? `$${fairPrice.toFixed(2)}` : 'N/A',
+      icon: null,
       label: 'Fair Price',
       color: 'text-gray-700',
     };
   };
 
-  const keyPrice = getKeyPrice();
+  const info = getKeyPrice();
 
   return (
     <div
       onClick={onClick}
       className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex items-center"
     >
-      {/* Left: Avatar with Badge */}
+      {/* Left: Avatar (기존 코드 유지) */}
       <div className="flex-shrink-0 mr-4">
         <div className="relative">
           <Avatar
@@ -273,6 +314,7 @@ function GuruCard({
               {persona.name[0]}
             </AvatarFallback>
           </Avatar>
+          {/* 뱃지 아이콘 (기존 유지) */}
           <div
             className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center shadow-md ${
               result.verdict === 'BUY' || result.verdict === 'STRONG_BUY'
@@ -295,18 +337,23 @@ function GuruCard({
 
       {/* Center: Info */}
       <div className="flex-grow">
-        {/* Row 1: Name */}
         <div className="mb-1">
           <span className="font-semibold text-gray-900">{persona.name}</span>
         </div>
-        {/* Row 2: Key Price */}
+
+        {/* Key Price / Status 표시 영역 */}
         <div className="flex items-baseline gap-2">
-          <span className={`text-xl font-bold ${keyPrice.color}`}>{keyPrice.value}</span>
-          <span className="text-xs text-gray-500">{keyPrice.label}</span>
+          <div className="flex items-center gap-1">
+            {/* 아이콘이 있으면 렌더링 (Druckenmiller용) */}
+            {info.icon && <span>{info.icon}</span>}
+
+            {/* 텍스트 값 */}
+            <span className={`text-xl font-bold ${info.color}`}>{info.text}</span>
+          </div>
+          <span className="text-xs text-gray-500">{info.label}</span>
         </div>
       </div>
 
-      {/* Right: Chevron */}
       <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
     </div>
   );
@@ -502,7 +549,7 @@ export default function TestApplePage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-20">
       <div className="max-w-md mx-auto">
         {/* Header */}
-        <div className="bg-white p-4 shadow-sm">
+        <div className="bg-white pt-4 px-4 shadow-sm">
           <h1 className="text-2xl font-bold text-center mb-3">Guru Pick</h1>
           {/* <p className="text-xs text-center text-slate-500 mb-4">Your Investment Board</p> */}
           <TickerAutocomplete value={ticker} onValueChange={setTicker} />

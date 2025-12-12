@@ -20,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${notoSansKR.variable} font-sans antialiased tracking-tight`}>
+      <body
+        className={`${notoSansKR.variable} font-sans antialiased tracking-tight`}
+        suppressHydrationWarning={true}
+      >
         {children}
       </body>
     </html>

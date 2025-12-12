@@ -20,9 +20,7 @@ import type { AlgorithmResult } from '@/lib/types/investment-analysis';
  * @param data - Combined stock data
  * @returns Algorithm result with verdict and exit condition
  */
-export function calculateDruckenmillerAnalysis(
-  data: CombinedStockData
-): AlgorithmResult {
+export function calculateDruckenmillerAnalysis(data: CombinedStockData): AlgorithmResult {
   const { market_status, financial_history } = data;
   const current_price = market_status.current_price;
   const ma_200d = market_status['200d_ma'];
@@ -84,50 +82,50 @@ export function calculateDruckenmillerAnalysis(
   let trigger_code: string;
 
   if (!trendAlive) {
-    // [SELL] 추세 붕괴: 실적이고 뭐고 일단 도망
+    // [SELL] 추세 붕괴
     verdict = 'SELL';
-    trend_status = '↘ Trend Broken';
+    trend_status = 'Broken'; // ↘Broken -> Broken
     trend_label = 'Exit Position';
     trend_signal = 'SELL';
     trigger_code = 'SELL_TREND_BROKEN';
-    logic = `Price $${current_price.toFixed(2)} below 200-day MA ($${ma_200d.toFixed(2)}). Trend broken. Exit regardless of earnings.`;
+    logic = `Price $${current_price.toFixed(2)} below 200-day MA. Trend broken. Exit.`;
   } else if (strongMomentum) {
-    // [모멘텀 구간] 신고가 근처
+    // [모멘텀 구간]
     if (isGrowing) {
-      // STRONG_BUY: 추세 + 신고가 + 실적성장 = 완벽한 타이밍 (돌파 매수)
+      // STRONG_BUY
       verdict = 'STRONG_BUY';
-      trend_status = '🚀 Breakout Mode';
+      trend_status = 'Breakout'; // 🚀Breakout -> Breakout
       trend_label = 'Momentum Buy';
       trend_signal = 'BUY';
       trigger_code = 'BUY_PERFECT_BREAKOUT';
-      logic = `Perfect setup: Price breakout near 52w high ($${week_52_high.toFixed(2)}) + ${growthLabel}. Strong buy.`;
+      logic = `Perfect setup: Breakout near 52w high + ${growthLabel}. Strong buy.`;
     } else {
-      // HOLD: 추세 + 신고가 BUT 실적 없음 = 가짜 돌파 위험 (관망)
+      // HOLD (Risky)
       verdict = 'HOLD';
-      trend_status = '⚠️ Risky Momentum';
+      trend_status = 'Risky'; // ⚠️Risky -> Risky
       trend_label = 'Wait & Watch';
       trend_signal = 'HOLD';
       trigger_code = 'HOLD_FAKE_BREAKOUT_RISK';
-      logic = `Price near 52w high but ${growthLabel}. High risk of fake breakout. Wait for earnings confirmation.`;
+      logic = `Near highs but ${growthLabel}. Risk of fake breakout.`;
     }
   } else {
-    // [조정/눌림목 구간] 추세는 있는데 신고가는 아님
+    // [조정 구간]
     if (isGrowing) {
-      // BUY: 추세 + 실적성장 BUT 가격 조정 중 = 눌림목 매수 기회
+      // BUY (Dip)
       verdict = 'BUY';
-      trend_status = '↗ Uptrend (Dip)';
+      trend_status = 'Uptrend'; // ↗Uptrend -> Uptrend
       trend_label = 'Buy the Dip';
       trend_signal = 'BUY';
       trigger_code = 'BUY_DIP_OPPORTUNITY';
-      logic = `Solid uptrend with ${growthLabel}. Price consolidating - good entry before next breakout.`;
+      logic = `Solid uptrend with ${growthLabel}. Buy the dip.`;
     } else {
-      // HOLD: 추세만 있고 실적도 없고 모멘텀도 없음 = 매력 없음 (관망)
+      // HOLD (Neutral)
       verdict = 'HOLD';
-      trend_status = '→ Consolidating';
+      trend_status = 'Neutral'; // →Consolidating -> Neutral (더 짧고 직관적)
       trend_label = 'Wait & Watch';
       trend_signal = 'HOLD';
       trigger_code = 'HOLD_NO_CATALYST';
-      logic = `Trend intact but no momentum and ${growthLabel}. Wait for signals.`;
+      logic = `Trend intact but no momentum/growth. Neutral.`;
     }
   }
 

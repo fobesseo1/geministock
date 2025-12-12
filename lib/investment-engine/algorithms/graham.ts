@@ -4,12 +4,7 @@ import { calculateCAGR } from '../utils/flexible-average';
 
 /**
  * Helper: Calculate Adjusted Graham Valuation
- *
- * Uses modified Graham formula: V = EPS * (8.5 + multiplier * g)
- * where multiplier adjusts based on growth rate:
- * - g <= 10%: multiplier = 2
- * - g >= 100%: multiplier = 1
- * - 10% < g < 100%: linear interpolation
+ * Formula: V = EPS * (8.5 + multiplier * g)
  */
 function calculateAdjustedGrahamValuation(eps: number, g: number): number {
   let multiplier: number;
@@ -29,27 +24,9 @@ function calculateAdjustedGrahamValuation(eps: number, g: number): number {
 
 /**
  * Benjamin Graham Strategy: Growth-Adjusted Value with HOLD Zone
- *
- * Approach:
- * 1. Calculate 3-year average EPS growth rate (g)
- * 2. Adjust multiplier based on growth (10% or less: 2x, 100% or more: 1x, linear in between)
- * 3. Graham Formula: V = EPS * (8.5 + multiplier * g)
- * 4. Apply 33% safety margin (0.67x multiplier) for target price
- *
- * Verdict (4 Stages):
- * - STRONG_BUY: Price < Graham Value * 0.67 (33% discount - deep value)
- * - BUY: Price < Graham Value (below fair value)
- * - HOLD: Graham Value <= Price < Graham Value * 1.2 (slight overvalue - hold for gains)
- * - SELL: Price >= Graham Value * 1.2 (20%+ premium - overvalued)
- *
- * Key Improvement: HOLD zone prevents frequent trading from minor price fluctuations
- *
- * @param data - Combined stock data
- * @returns Algorithm result with verdict and adjusted Graham value
+ * [Modified] Applies 'Market Cap Based Growth Cap' to prevent huge valuation for mega-caps
  */
-export function calculateGrahamAnalysis(
-  data: CombinedStockData
-): AlgorithmResult {
+export function calculateGrahamAnalysis(data: CombinedStockData): AlgorithmResult {
   const { market_status, financial_history } = data;
   const hist = financial_history;
 
@@ -99,48 +76,90 @@ export function calculateGrahamAnalysis(
   const eps_t2 = hist[0].eps; // Oldest
   const yearsSpan = hist.length - 1;
 
-  let epsGrowthRate = 0;
+  let rawGrowth = 0;
+  let isAdjusted = false;
 
-  // Calculate growth rate if we have valid data
+  // Calculate raw growth rate
   if (eps_t2 > 0 && yearsSpan > 0) {
-    const rawGrowth = calculateCAGR(eps_t2, eps_t0, yearsSpan) * 100;
-    // Use minimum 3% growth to avoid zero valuation
-    epsGrowthRate = Math.max(rawGrowth, 3.0);
+    rawGrowth = calculateCAGR(eps_t2, eps_t0, yearsSpan) * 100;
+    // Use minimum 3% growth
+    if (rawGrowth < 3.0) {
+      rawGrowth = 3.0;
+      isAdjusted = true;
+    }
   } else {
-    // Default to 3% if historical data is invalid
-    epsGrowthRate = 3.0;
+    rawGrowth = 3.0;
+    isAdjusted = true;
   }
 
-  // Calculate Adjusted Graham Number using growth-adjusted formula
-  const grahamNumber = calculateAdjustedGrahamValuation(eps, epsGrowthRate);
+  // Step 2: Apply Market Cap Based Growth Cap (체급별 상한선)
+  // 그레이엄 공식은 성장률에 매우 민감하므로(2*g) 상한선이 더욱 중요함
+  const marketCap = market_status.market_cap || 0;
+  let maxGrowthCap = 50.0;
+
+  const BILLION = 1000000000;
+
+  if (marketCap > 100 * BILLION) {
+    // 1. 초대형주 ($100B 이상): 최대 25% 제한
+    maxGrowthCap = 25.0;
+  } else if (marketCap > 10 * BILLION) {
+    // 2. 대형주 ($10B ~ $100B): 최대 35% 제한
+    maxGrowthCap = 35.0;
+  } else {
+    // 3. 중소형주 ($10B 미만): 최대 50% 제한
+    maxGrowthCap = 50.0;
+  }
+
+  // 최종 성장률 결정 (Cap 적용)
+  const epsGrowthRate = Math.min(rawGrowth, maxGrowthCap);
+  const isCapped = rawGrowth > maxGrowthCap;
+
+  // Calculate Adjusted Graham Number
+  // [Safety Cap] 계산된 가치가 PER 50배를 넘지 않도록 2차 방어선 구축 (선택 사항)
+  let grahamNumber = calculateAdjustedGrahamValuation(eps, epsGrowthRate);
+  const maxValuation = eps * 50;
+  if (grahamNumber > maxValuation) {
+    grahamNumber = maxValuation;
+  }
 
   // Get current price
   const current_price = market_status.current_price;
 
   // Verdict with 4-stage logic (STRONG_BUY - BUY - HOLD - SELL)
   let verdict: AlgorithmResult['verdict'];
-  const marginPrice = grahamNumber * 0.67;        // 안전마진 가격 (33% 할인)
-  const overvalueThreshold = grahamNumber * 1.2;  // 과대평가 기준 (20% 프리미엄)
+  const marginPrice = grahamNumber * 0.67; // 안전마진 가격 (33% 할인)
+  const overvalueThreshold = grahamNumber * 1.2; // 과대평가 기준 (20% 프리미엄)
 
   if (current_price < marginPrice) {
-    verdict = 'STRONG_BUY';  // 33% 이상 저렴 (대바겐세일)
+    verdict = 'STRONG_BUY'; // 33% 이상 저렴
   } else if (current_price < grahamNumber) {
-    verdict = 'BUY';         // 적정가보다 저렴 (매수 유효)
+    verdict = 'BUY'; // 적정가보다 저렴
   } else if (current_price < overvalueThreshold) {
-    verdict = 'HOLD';        // 적정가 ~ 20% 오버슈팅 (보유)
+    verdict = 'HOLD'; // 적정가 ~ 20% 오버슈팅
   } else {
-    verdict = 'SELL';        // 20% 이상 비쌈 (매도)
+    verdict = 'SELL'; // 20% 이상 비쌈
   }
 
-  // Build logic explanation based on verdict
+  // Build logic explanation
+  let growthText = `${epsGrowthRate.toFixed(1)}%`;
+  if (isCapped) {
+    growthText += ` (capped)`;
+  }
+
   let logic: string;
   if (verdict === 'STRONG_BUY') {
     const discount = ((1 - current_price / grahamNumber) * 100).toFixed(0);
-    logic = `Deep value: ${discount}% discount to fair value $${grahamNumber.toFixed(2)}`;
+    logic = `Deep value (Growth ${growthText}): ${discount}% discount to fair value $${grahamNumber.toFixed(
+      2
+    )}`;
   } else if (verdict === 'BUY') {
-    logic = `Fair value buy: Price below Graham Number $${grahamNumber.toFixed(2)}`;
+    logic = `Fair value buy (Growth ${growthText}): Price below Graham Number $${grahamNumber.toFixed(
+      2
+    )}`;
   } else if (verdict === 'HOLD') {
-    logic = `Hold zone: Price slightly above fair value but within 20% tolerance ($${grahamNumber.toFixed(2)} - $${overvalueThreshold.toFixed(2)})`;
+    logic = `Hold zone: Price within tolerance ($${grahamNumber.toFixed(
+      2
+    )} - $${overvalueThreshold.toFixed(2)})`;
   } else {
     const premium = ((current_price / grahamNumber - 1) * 100).toFixed(0);
     logic = `Overvalued: Price ${premium}% above fair value $${grahamNumber.toFixed(2)}`;
@@ -156,7 +175,7 @@ export function calculateGrahamAnalysis(
   return {
     verdict,
     target_price: grahamNumber * 0.67, // 안전마진 가격을 목표가로
-    sell_price: grahamNumber * 1.2, // 과대평가 기준을 매도가로 (20% 프리미엄)
+    sell_price: grahamNumber * 1.2, // 과대평가 기준을 매도가로
     logic,
     analysis_summary: {
       trigger_code,
@@ -173,6 +192,6 @@ export function calculateGrahamAnalysis(
     },
     metric_name: 'Graham Number',
     metric_value: grahamNumber,
-    fair_price: grahamNumber * 0.67, // Graham의 Fair Price는 target_price (안전마진 가격)
+    fair_price: grahamNumber,
   };
 }

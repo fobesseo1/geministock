@@ -46,6 +46,14 @@ export interface AlgorithmResult {
   // Optional: Additional metric for UI display
   metric_name?: string;          // e.g., "PEG", "Graham Number", "200D MA"
   metric_value?: number | null;  // Numeric value of the metric
+
+  // Optional: Trend status for Druckenmiller (추세 추종 전략용)
+  trend_status?: string;         // e.g., "↗ Strong Uptrend", "→ Consolidating", "↘ Trend Broken"
+  trend_label?: string;          // e.g., "Momentum Buy", "Wait & Watch", "Exit Position"
+  trend_signal?: 'BUY' | 'HOLD' | 'SELL';  // Simplified signal
+
+  // Fair price for frontend display (각 guru의 적정가)
+  fair_price?: number | null;    // Lynch: sell_price, Marks: buy_zone_max, Others: target_price
 }
 
 /**
@@ -68,6 +76,7 @@ export interface InvestmentSummary {
  */
 export interface InvestmentAnalysisResult {
   ticker: string;
+  company_name: string; // Company name for UI display
   meta: {
     current_price: number;
     data_period_used: string; // "3 years (2023-2025)"

@@ -176,5 +176,6 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
     },
     metric_name: 'Compounding Rate',
     metric_value: cappedRate,
+    fair_price: buyPrice, // Buffett의 Fair Price는 target_price
   };
 }

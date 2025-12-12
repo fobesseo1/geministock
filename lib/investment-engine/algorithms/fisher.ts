@@ -10,12 +10,14 @@ import { getFlexibleAverage } from '../utils/flexible-average';
  * 2. Buy target = SPS * Avg PSR
  * 3. Sell target = SPS * Max PSR (historical band top)
  *
- * Verdict:
- * - BUY: Current PSR < Avg PSR
- * - HOLD: Avg PSR < Current PSR < Max PSR
+ * Verdict (4 Stages):
+ * - STRONG_BUY: Current PSR < Avg PSR * 0.85 (15% discount - rare bargain)
+ * - BUY: Current PSR < Avg PSR (below average valuation)
+ * - HOLD: Avg PSR < Current PSR < Max PSR (within historical range)
  * - SELL: Current PSR > Max PSR (overheated)
  *
  * Advantage: Works with loss-making companies (revenue-based)
+ * Key Improvement: 15% discount threshold prevents false STRONG_BUY signals
  *
  * @param data - Combined stock data
  * @returns Algorithm result with verdict and price targets
@@ -96,8 +98,8 @@ export function calculateFisherAnalysis(
   // Verdict Standardization: Add STRONG_BUY condition
   let verdict: AlgorithmResult['verdict'];
 
-  if (currentPSR < avgPSR * 0.9) {
-    verdict = 'STRONG_BUY'; // 평균보다 10% 이상 쌀 때
+  if (currentPSR < avgPSR * 0.85) {
+    verdict = 'STRONG_BUY'; // 평균보다 15% 이상 쌀 때 (신뢰도 높은 바겐세일)
   } else if (currentPSR < avgPSR) {
     verdict = 'BUY';
   } else if (currentPSR < maxPSR) {
@@ -136,5 +138,6 @@ export function calculateFisherAnalysis(
     },
     metric_name: 'PSR',
     metric_value: currentPSR,
+    fair_price: buyTarget, // Fisher의 Fair Price는 target_price
   };
 }

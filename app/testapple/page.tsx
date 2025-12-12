@@ -4,47 +4,11 @@ import { useState, useEffect } from 'react';
 import { TickerAutocomplete } from '@/components/TickerAutocomplete';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { ChevronRight, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import type { InvestmentAnalysisResult, AlgorithmResult } from '@/lib/types/investment-analysis';
 
-// --- Interfaces ---
-interface AnalysisSummary {
-  trigger_code: string;
-  key_factors: Record<string, any>;
-}
-
-interface PriceGuide {
-  buy_zone_max: number | null;
-  profit_zone_min: number | null;
-  stop_loss: number | null;
-}
-
-interface PersonaResult {
-  verdict: 'STRONG_BUY' | 'BUY' | 'HOLD' | 'SELL' | 'N/A';
-  analysis_summary: AnalysisSummary;
-  price_guide: PriceGuide;
-  metric_name?: string;
-  metric_value?: number;
-}
-
-interface InvestmentData {
-  ticker: string;
-  meta: {
-    current_price: number;
-    data_period_used: string;
-  };
-  summary: {
-    total_score: number;
-    consensus_verdict: string;
-    opinion_breakdown: {
-      strong_buy: number;
-      buy: number;
-      hold: number;
-      sell: number;
-    };
-  };
-  results: {
-    [key: string]: PersonaResult;
-  };
-}
+// Type aliases for code readability
+type InvestmentData = InvestmentAnalysisResult;
+type PersonaResult = AlgorithmResult;
 
 const PERSONAS = [
   { key: 'buffett', name: 'Buffett', avatar: '/persona/main/buffett.png' },
@@ -56,128 +20,6 @@ const PERSONAS = [
 ] as const;
 
 // --- Components ---
-
-// 화면 A: Gauge Chart (반원형 - Polished)
-// function GaugeChart({ score }: { score: number }) {
-//   // Get solid color for arrow and glow
-//   const getColor = () => {
-//     if (score >= 61) return '#34C759'; // Green
-//     if (score >= 41) return '#FFCC00'; // Yellow
-//     return '#FF3B30'; // Red
-//   };
-
-//   // Get gradient colors for progress arc
-//   const getGradientColors = () => {
-//     if (score >= 61) return { start: '#7DE39F', end: '#34C759' }; // Light → Dark Green
-//     if (score >= 41) return { start: '#FFE066', end: '#FFCC00' }; // Light → Dark Yellow
-//     return { start: '#FF7A66', end: '#FF3B30' }; // Light → Dark Red
-//   };
-
-//   // Calculate arrow position
-//   const arrowAngle = (score / 100) * 180; // 0-180 degrees
-//   const arrowRad = ((180 - arrowAngle) * Math.PI) / 180;
-//   const radius = 80;
-//   const arrowX = 100 + radius * Math.cos(arrowRad);
-//   const arrowY = 100 - radius * Math.sin(arrowRad);
-
-//   const gradientColors = getGradientColors();
-//   const mainColor = getColor();
-
-//   return (
-//     <div className="relative w-full max-w-[280px] mx-auto">
-//       {/* Background glow */}
-//       <div
-//         className="absolute inset-0 blur-2xl opacity-20 rounded-full"
-//         style={{
-//           background: `radial-gradient(circle, ${mainColor} 0%, transparent 70%)`,
-//         }}
-//       />
-
-//       {/* SVG Gauge */}
-//       <svg viewBox="0 0 200 110" className="relative z-10 w-full h-auto">
-//         <defs>
-//           {/* Gradient for progress arc */}
-//           <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-//             <stop offset="0%" stopColor={gradientColors.start} />
-//             <stop offset="100%" stopColor={gradientColors.end} />
-//           </linearGradient>
-
-//           {/* Background arc gradient */}
-//           <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-//             <stop offset="0%" stopColor="#F0F0F0" />
-//             <stop offset="100%" stopColor="#E5E5EA" />
-//           </linearGradient>
-
-//           {/* Drop shadow filter */}
-//           <filter id="gaugeShadow">
-//             <feDropShadow dx="0" dy="3" stdDeviation="4" floodOpacity="0.2" />
-//           </filter>
-
-//           {/* Text shadow filter */}
-//           <filter id="textShadow">
-//             <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.1" />
-//           </filter>
-
-//           {/* Glow effect filter */}
-//           <filter id="glowEffect">
-//             <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-//             <feMerge>
-//               <feMergeNode in="coloredBlur" />
-//               <feMergeNode in="SourceGraphic" />
-//             </feMerge>
-//           </filter>
-//         </defs>
-
-//         {/* Background Arc */}
-//         <path
-//           d="M 20 100 A 80 80 0 0 1 180 100"
-//           fill="none"
-//           stroke="url(#bgGradient)"
-//           strokeWidth="24"
-//           strokeLinecap="round"
-//         />
-
-//         {/* Progress Arc */}
-//         <path
-//           d="M 20 100 A 80 80 0 0 1 180 100"
-//           fill="none"
-//           stroke="url(#gaugeGradient)"
-//           strokeWidth="24"
-//           strokeLinecap="round"
-//           strokeDasharray={`${(score / 100) * 251.33} 251.33`}
-//           filter="url(#gaugeShadow)"
-//           style={{ transition: 'stroke-dasharray 1.2s cubic-bezier(0.4, 0, 0.2, 1)' }}
-//         />
-
-//         {/* Arrow Indicator */}
-//         <g
-//           transform={`translate(${arrowX}, ${arrowY}) rotate(${-arrowAngle + 90})`}
-//           style={{
-//             transition: 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
-//             transformOrigin: '0 0',
-//           }}
-//         >
-//           <path d="M 0 -8 L 6 4 L -6 4 Z" fill={mainColor} filter="url(#gaugeShadow)" />
-//         </g>
-
-//         {/* Center Text */}
-//         <text
-//           x="100"
-//           y="85"
-//           textAnchor="middle"
-//           className="text-4xl font-bold"
-//           fill="#1C1C1E"
-//           filter="url(#textShadow)"
-//         >
-//           {score}
-//         </text>
-//         <text x="100" y="105" textAnchor="middle" className="text-xs" fill="#8E8E93">
-//           Investment Score
-//         </text>
-//       </svg>
-//     </div>
-//   );
-// }
 
 // 화면 A: Gauge Chart (반원형 - Polished)
 function GaugeChart({ score }: { score: number }) {
@@ -380,28 +222,28 @@ function GuruCard({
   onClick: () => void;
 }) {
   const getKeyPrice = () => {
-    if (result.verdict === 'BUY' || result.verdict === 'STRONG_BUY') {
-      // 매수 → 목표가 (profit_zone_min)
-      const target = result.price_guide.profit_zone_min || result.price_guide.buy_zone_max;
+    // Druckenmiller는 가격 대신 추세 상태를 표시 (추세 추종 전략)
+    if (persona.key === 'druckenmiller') {
+      const trendStatus = result.trend_status || '→ Consolidating';
+      const trendLabel = result.trend_label || 'Wait & Watch';
+      const trendSignal = result.trend_signal || 'HOLD';
+
       return {
-        value: target ? `$${target.toFixed(2)}` : 'N/A',
-        label: 'Target',
-        color: 'text-[#34C759]',
+        value: trendStatus,
+        label: trendLabel,
+        color:
+          trendSignal === 'BUY'
+            ? 'text-[#34C759]'
+            : trendSignal === 'SELL'
+            ? 'text-[#FF3B30]'
+            : 'text-[#FFCC00]',
       };
     }
-    if (result.verdict === 'SELL') {
-      // 매도 → 손절가 or sell price
-      const sell = result.price_guide.stop_loss || result.price_guide.profit_zone_min;
-      return {
-        value: sell ? `$${sell.toFixed(2)}` : 'N/A',
-        label: 'Sell at',
-        color: 'text-[#FF3B30]',
-      };
-    }
-    // HOLD → 적정가
-    const hold = result.price_guide.profit_zone_min || currentPrice;
+
+    // 나머지 5명의 guru는 모두 API의 fair_price 사용
+    const fairPrice = result.fair_price || currentPrice;
     return {
-      value: hold ? `$${hold.toFixed(2)}` : 'N/A',
+      value: fairPrice ? `$${fairPrice.toFixed(2)}` : 'N/A',
       label: 'Fair Price',
       color: 'text-gray-700',
     };
@@ -608,6 +450,7 @@ export default function TestApplePage() {
   const [ticker, setTicker] = useState('AAPL');
   const [data, setData] = useState<InvestmentData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'verdict' | 'insights' | 'scenario'>('verdict');
   const [selectedPersona, setSelectedPersona] = useState<{
     persona: (typeof PERSONAS)[number];
@@ -617,16 +460,34 @@ export default function TestApplePage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      setError(null); // Reset previous error
+
       try {
         const res = await fetch(`/api/invest/${ticker}`);
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
+        }
+
         const json = await res.json();
+
+        // Validate response structure
+        if (!json.ticker || !json.results || !json.summary) {
+          throw new Error('Invalid API response structure');
+        }
+
         setData(json);
       } catch (e) {
-        console.error(e);
+        console.error('Investment data fetch error:', e);
+        setError(
+          e instanceof Error ? e.message : 'Failed to load investment data. Please try again.'
+        );
+        setData(null); // Clear previous data on error
       } finally {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [ticker]);
 
@@ -646,6 +507,40 @@ export default function TestApplePage() {
           {/* <p className="text-xs text-center text-slate-500 mb-4">Your Investment Board</p> */}
           <TickerAutocomplete value={ticker} onValueChange={setTicker} />
         </div>
+
+        {/* Stock Info Display */}
+        {data && !error && (
+          <div className="bg-white px-4 py-3 border-b border-gray-100 flex justify-between items-center">
+            <span className="text-base font-medium text-gray-900">
+              {data.ticker}:{' '}
+              <span className="text-base font-semibold text-gray-900">
+                ${data.meta.current_price.toFixed(2)}
+              </span>
+            </span>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="mx-4 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-start">
+              <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 mr-3 flex-shrink-0" />
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-red-800 mb-1">Failed to Load Data</h3>
+                <p className="text-sm text-red-700">{error}</p>
+                <button
+                  onClick={() => {
+                    setError(null);
+                    setTicker(ticker); // Re-trigger fetch
+                  }}
+                  className="mt-3 text-sm font-medium text-red-800 hover:text-red-900 underline"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Tab Navigation */}
         <div className="bg-white border-b border-gray-200 flex">

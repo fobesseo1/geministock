@@ -110,6 +110,8 @@ export function calculateMarksAnalysis(
   else if (verdict === 'SELL') trigger_code = 'SELL_EUPHORIA_TOP';
   else trigger_code = 'HOLD_MID_CYCLE';
 
+  const fairPrice = week_52_low + (priceRange * 0.2); // buy_zone_max
+
   return {
     verdict,
     target_price: week_52_low, // Bottom of 52-week range (buy opportunity)
@@ -123,11 +125,12 @@ export function calculateMarksAnalysis(
       },
     },
     price_guide: {
-      buy_zone_max: week_52_low + (priceRange * 0.2), // 하위 20% 구간
+      buy_zone_max: fairPrice, // 하위 20% 구간
       profit_zone_min: week_52_low + (priceRange * 0.8), // 상위 20% 구간
       stop_loss: null,
     },
     metric_name: 'Price Position',
     metric_value: priceRank * 100, // Position in range as percentage
+    fair_price: fairPrice, // Marks의 Fair Price는 buy_zone_max (하위 20% 상한선)
   };
 }

@@ -28,7 +28,7 @@ function calculateAdjustedGrahamValuation(eps: number, g: number): number {
 }
 
 /**
- * Benjamin Graham Strategy: Growth-Adjusted Value
+ * Benjamin Graham Strategy: Growth-Adjusted Value with HOLD Zone
  *
  * Approach:
  * 1. Calculate 3-year average EPS growth rate (g)
@@ -36,10 +36,13 @@ function calculateAdjustedGrahamValuation(eps: number, g: number): number {
  * 3. Graham Formula: V = EPS * (8.5 + multiplier * g)
  * 4. Apply 33% safety margin (0.67x multiplier) for target price
  *
- * Verdict:
- * - STRONG BUY: Price < Graham Value * 0.67
- * - BUY: Price < Graham Value
- * - SELL: Price >= Graham Value
+ * Verdict (4 Stages):
+ * - STRONG_BUY: Price < Graham Value * 0.67 (33% discount - deep value)
+ * - BUY: Price < Graham Value (below fair value)
+ * - HOLD: Graham Value <= Price < Graham Value * 1.2 (slight overvalue - hold for gains)
+ * - SELL: Price >= Graham Value * 1.2 (20%+ premium - overvalued)
+ *
+ * Key Improvement: HOLD zone prevents frequent trading from minor price fluctuations
  *
  * @param data - Combined stock data
  * @returns Algorithm result with verdict and adjusted Graham value
@@ -114,30 +117,46 @@ export function calculateGrahamAnalysis(
   // Get current price
   const current_price = market_status.current_price;
 
-  // Verdict Standardization (언더스코어 통일)
+  // Verdict with 4-stage logic (STRONG_BUY - BUY - HOLD - SELL)
   let verdict: AlgorithmResult['verdict'];
+  const marginPrice = grahamNumber * 0.67;        // 안전마진 가격 (33% 할인)
+  const overvalueThreshold = grahamNumber * 1.2;  // 과대평가 기준 (20% 프리미엄)
 
-  if (current_price < grahamNumber * 0.67) {
-    verdict = 'STRONG_BUY';
+  if (current_price < marginPrice) {
+    verdict = 'STRONG_BUY';  // 33% 이상 저렴 (대바겐세일)
   } else if (current_price < grahamNumber) {
-    verdict = 'BUY';
+    verdict = 'BUY';         // 적정가보다 저렴 (매수 유효)
+  } else if (current_price < overvalueThreshold) {
+    verdict = 'HOLD';        // 적정가 ~ 20% 오버슈팅 (보유)
   } else {
-    verdict = 'SELL';
+    verdict = 'SELL';        // 20% 이상 비쌈 (매도)
   }
 
-  // Build logic explanation
-  const logic = `EPS $${eps.toFixed(2)}, 성장률 ${epsGrowthRate.toFixed(1)}% 반영 → 적정가 $${grahamNumber.toFixed(2)}`;
+  // Build logic explanation based on verdict
+  let logic: string;
+  if (verdict === 'STRONG_BUY') {
+    const discount = ((1 - current_price / grahamNumber) * 100).toFixed(0);
+    logic = `Deep value: ${discount}% discount to fair value $${grahamNumber.toFixed(2)}`;
+  } else if (verdict === 'BUY') {
+    logic = `Fair value buy: Price below Graham Number $${grahamNumber.toFixed(2)}`;
+  } else if (verdict === 'HOLD') {
+    logic = `Hold zone: Price slightly above fair value but within 20% tolerance ($${grahamNumber.toFixed(2)} - $${overvalueThreshold.toFixed(2)})`;
+  } else {
+    const premium = ((current_price / grahamNumber - 1) * 100).toFixed(0);
+    logic = `Overvalued: Price ${premium}% above fair value $${grahamNumber.toFixed(2)}`;
+  }
 
   // Determine trigger code
   let trigger_code: string;
   if (verdict === 'STRONG_BUY') trigger_code = 'BUY_DEEP_VALUE';
   else if (verdict === 'BUY') trigger_code = 'BUY_FAIR_VALUE';
+  else if (verdict === 'HOLD') trigger_code = 'HOLD_MODERATE_PREMIUM';
   else trigger_code = 'SELL_OVERPRICED';
 
   return {
     verdict,
     target_price: grahamNumber * 0.67, // 안전마진 가격을 목표가로
-    sell_price: grahamNumber, // 적정가를 매도가로
+    sell_price: grahamNumber * 1.2, // 과대평가 기준을 매도가로 (20% 프리미엄)
     logic,
     analysis_summary: {
       trigger_code,
@@ -148,11 +167,12 @@ export function calculateGrahamAnalysis(
       },
     },
     price_guide: {
-      buy_zone_max: grahamNumber * 0.67, // 안전마진 가격
-      profit_zone_min: grahamNumber, // 적정가
+      buy_zone_max: grahamNumber, // 적정가까지 매수 유효
+      profit_zone_min: grahamNumber * 1.2, // 20% 오버슈팅 시 매도 고려
       stop_loss: null,
     },
     metric_name: 'Graham Number',
     metric_value: grahamNumber,
+    fair_price: grahamNumber * 0.67, // Graham의 Fair Price는 target_price (안전마진 가격)
   };
 }

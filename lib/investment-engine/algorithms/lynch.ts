@@ -159,5 +159,6 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
     },
     metric_name: 'PEG Ratio',
     metric_value: peg,
+    fair_price: fairValue,
   };
 }

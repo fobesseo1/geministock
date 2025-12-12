@@ -85,6 +85,7 @@ export async function analyzeStock(
   // Step 5: Return unified result
   return {
     ticker: data.ticker,
+    company_name: data.company_name,
     meta: {
       current_price: data.market_status.current_price,
       data_period_used: `${yearsAvailable} years (${yearRange})`,

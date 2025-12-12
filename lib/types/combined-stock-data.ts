@@ -8,6 +8,7 @@
  */
 export interface CombinedStockData {
   ticker: string;
+  company_name: string; // Company name extracted from filename
   data_source: 'Yahoo_Realtime + Local_JSON_History';
   market_status: MarketStatus;
   financial_history: FinancialHistoryItem[];

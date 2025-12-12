@@ -3,6 +3,7 @@ import {
   readLocalFinancialData,
   extractRecentYears,
 } from '@/lib/local-data/json-reader';
+import { getCompanyName } from '@/lib/local-data/ticker-map';
 import type {
   CombinedStockData,
   MarketStatus,
@@ -59,6 +60,7 @@ export async function combineStockData(
 
   return {
     ticker: ticker.toUpperCase(),
+    company_name: getCompanyName(ticker),
     data_source: 'Yahoo_Realtime + Local_JSON_History',
     market_status,
     financial_history,

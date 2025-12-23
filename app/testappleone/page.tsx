@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { TickerAutocomplete } from '@/components/TickerAutocomplete';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -548,8 +548,8 @@ function WelcomeScreen({ onSelectTicker }: { onSelectTicker: (ticker: string) =>
   );
 }
 
-// --- Main Page ---
-export default function TestAppleOnePage() {
+// --- Main Page Content ---
+function TestAppleOneContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [ticker, setTicker] = useState(''); // 빈 값으로 시작
@@ -739,5 +739,20 @@ export default function TestAppleOnePage() {
         )}
       </div>
     </div>
+  );
+}
+
+// --- Main Page Wrapper with Suspense ---
+export default function TestAppleOnePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+          <div className="text-gray-500">Loading...</div>
+        </div>
+      }
+    >
+      <TestAppleOneContent />
+    </Suspense>
   );
 }

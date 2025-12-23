@@ -8,6 +8,9 @@
 // Verdict types - 5 levels (언더스코어 통일)
 export type Verdict = 'STRONG_BUY' | 'BUY' | 'HOLD' | 'SELL' | 'N/A';
 
+// Price status for display_price
+export type PriceStatus = 'NORMAL' | 'SOFT_CAP' | 'SOFT_FLOOR';
+
 /**
  * Analysis summary with trigger code and key factors
  * Allows frontend to display dynamic messages based on situation
@@ -42,6 +45,11 @@ export interface AlgorithmResult {
 
   // [NEW] Clear price guide
   price_guide: PriceGuide;
+
+  // [V2] UI Display Fields - Soft Cap/Floor & Win Rate
+  display_price: number | null;  // UI-friendly price (capped at ±30% with 20% damping)
+  price_status: PriceStatus;     // Price adjustment status (NORMAL, SOFT_CAP, SOFT_FLOOR)
+  win_rate: number;              // Dr. Strange success probability (1-99%)
 
   // Optional: Additional metric for UI display
   metric_name?: string;          // e.g., "PEG", "Graham Number", "200D MA"

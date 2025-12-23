@@ -1,6 +1,7 @@
 import type { CombinedStockData } from '@/lib/types/combined-stock-data';
 import type { AlgorithmResult } from '@/lib/types/investment-analysis';
 import { calculateCAGR } from '../utils/flexible-average';
+import { calculateDisplayPrice } from '@/lib/utils/price-adjuster';
 
 /**
  * Peter Lynch Strategy: GARP
@@ -28,6 +29,9 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -51,6 +55,9 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -118,6 +125,9 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -180,6 +190,43 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
   const buyZoneMax = eps_t0 * growthRate * 1.2; // PEG 1.2
   const sellPriceCalc = eps_t0 * growthRate * 1.5; // PEG 1.5
 
+  // [V2] Win Rate Calculation - Lynch Strategy
+  // Base: 50, adjusts based on PEG ratio (핵심) and debt health
+  let winRate = 50;
+
+  // PEG Score (핵심 지표)
+  if (peg < 0.5) winRate += 40; // Fast Grower at bargain (최고 기회)
+  else if (peg < 1.0) winRate += 20; // 적정가보다 저렴
+  else if (peg < 1.5) winRate -= 10; // 약간 비싼 편
+  else winRate -= 40; // 과대평가
+
+  // Debt Bonus/Penalty (부채 건전성)
+  if (debt_to_equity < 50) winRate += 10; // 낮은 부채 (보너스)
+  if (debt_to_equity > 100) winRate -= 10; // 높은 부채 (패널티)
+
+  // Clamp to 1-99%
+  winRate = Math.min(99, Math.max(1, Math.round(winRate)));
+
+  // 기본 적정가 (PEG 1.0)
+  const baseFairValue = eps_t0 * growthRate;
+
+  // 매수 허용 상한선 (PEG 1.2)
+  const maxBuyPrice = baseFairValue * 1.2;
+
+  let finalDisplayPrice: number;
+
+  if (verdict === 'STRONG_BUY' || verdict === 'BUY') {
+    // 살 때: PEG 1.2까지 열어두고 보여줌 -> "이 가격까지는 사도 된다"
+    finalDisplayPrice = maxBuyPrice;
+  } else {
+    // 안 살 때: PEG 1.0 기준 -> "원래 가치는 이거니까 지금은 비싸다"
+    finalDisplayPrice = baseFairValue;
+  }
+
+  // [V2] Display Price Calculation (Soft Cap/Floor 적용)
+  // 위에서 결정한 finalDisplayPrice를 기준으로 UI용 가격 보정
+  const { display_price, price_status } = calculateDisplayPrice(current_price, finalDisplayPrice);
+
   return {
     verdict,
     target_price: fairValue, // 기준점: PEG 1.0 가격 (적정가)
@@ -199,6 +246,9 @@ export function calculateLynchAnalysis(data: CombinedStockData): AlgorithmResult
       profit_zone_min: sellPriceCalc,
       stop_loss: null,
     },
+    display_price,
+    price_status,
+    win_rate: winRate,
     metric_name: 'PEG Ratio',
     metric_value: peg,
     fair_price: fairValue, // 항상 PEG 1.0 기준

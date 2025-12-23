@@ -1,5 +1,6 @@
 import type { CombinedStockData } from '@/lib/types/combined-stock-data';
 import type { AlgorithmResult } from '@/lib/types/investment-analysis';
+import { calculateDisplayPrice } from '@/lib/utils/price-adjuster';
 
 /**
  * Stanley Druckenmiller Strategy: Trend Following + Growth
@@ -42,6 +43,9 @@ export function calculateDruckenmillerAnalysis(data: CombinedStockData): Algorit
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -129,6 +133,27 @@ export function calculateDruckenmillerAnalysis(data: CombinedStockData): Algorit
     }
   }
 
+  // [V2] Win Rate Calculation - Druckenmiller Strategy (누적 방식)
+  // Base: 50, adjusts based on trend status and earnings growth
+  let winRate = 50;
+
+  // Trend Status Score
+  if (trend_status === 'Breakout') winRate += 40; // 90 (Perfect setup)
+  else if (trend_status === 'Uptrend') winRate += 25; // 75 (Solid uptrend)
+  else if (trend_status === 'Risky') winRate -= 10; // 40 (Risky momentum)
+  else if (trend_status === 'Neutral') winRate += 0; // 50 (Neutral)
+  else if (trend_status === 'Broken') winRate -= 40; // 10 (Trend broken)
+
+  // Earnings Growth Bonus/Penalty
+  if (trend_status === 'Breakout' && !isGrowing) winRate -= 20; // 가짜 돌파 감점
+
+  // Clamp to 1-99%
+  winRate = Math.min(99, Math.max(1, Math.round(winRate)));
+
+  // [V2] Display Price Calculation (Soft Cap/Floor)
+  // Druckenmiller는 target_price가 null이므로 display_price도 null
+  const { display_price, price_status } = calculateDisplayPrice(current_price, null);
+
   return {
     verdict,
     target_price: null, // Trend followers don't have price targets
@@ -148,6 +173,9 @@ export function calculateDruckenmillerAnalysis(data: CombinedStockData): Algorit
       profit_zone_min: null, // 추세 추종이라 목표가 없음
       stop_loss: ma_200d, // 200일선 깨지면 손절
     },
+    display_price,
+    price_status,
+    win_rate: winRate,
     metric_name: '200D MA',
     metric_value: ma_200d,
     // Trend status for frontend display

@@ -1,6 +1,7 @@
 import type { CombinedStockData } from '@/lib/types/combined-stock-data';
 import type { AlgorithmResult } from '@/lib/types/investment-analysis';
 import { getFlexibleAverage, calculateCAGR } from '../utils/flexible-average';
+import { calculateDisplayPrice } from '@/lib/utils/price-adjuster';
 
 /**
  * Warren Buffett Strategy: Quality & Value
@@ -25,6 +26,9 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -47,6 +51,9 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -71,6 +78,9 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -120,6 +130,9 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
   const cappedPER = Math.min(avgPER, 50);
@@ -155,6 +168,27 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
   else if (verdict === 'HOLD') trigger_code = 'HOLD_MOAT_FAIR';
   else trigger_code = 'SELL_MOAT_EXPENSIVE';
 
+  // [V2] Win Rate Calculation - Buffett Strategy
+  // Base: 50, adjusts based on price attractiveness (upside) and quality (ROE)
+  let winRate = 50;
+  const upside = (buyPrice - current_price) / current_price;
+
+  // Price Score (가격 매력도)
+  if (upside > 0.3) winRate += 30; // 30% 이상 저렴 (강한 바겐세일)
+  else if (upside > 0) winRate += 15; // 저렴한 편
+  else if (upside > -0.2) winRate -= 10; // 약간 비쌈
+  else winRate -= 30; // 20% 이상 비쌈
+
+  // Quality Score (퀄리티 보너스 - ROE)
+  if (avgROE > 20) winRate += 15; // 고품질 기업
+  else if (avgROE < 10) winRate -= 10; // 낮은 수익성
+
+  // Clamp to 1-99%
+  winRate = Math.min(99, Math.max(1, Math.round(winRate)));
+
+  // [V2] Display Price Calculation (Soft Cap/Floor)
+  const { display_price, price_status } = calculateDisplayPrice(current_price, buyPrice);
+
   return {
     verdict,
     target_price: buyPrice,
@@ -174,6 +208,9 @@ export function calculateBuffettAnalysis(data: CombinedStockData): AlgorithmResu
       profit_zone_min: buyPrice * 1.2,
       stop_loss: null,
     },
+    display_price,
+    price_status,
+    win_rate: winRate,
     metric_name: 'Compounding Rate',
     metric_value: cappedRate,
     fair_price: buyPrice, // Buffett의 Fair Price는 target_price

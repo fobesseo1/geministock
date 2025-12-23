@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { TickerAutocomplete } from '@/components/TickerAutocomplete';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, Rocket } from 'lucide-react';
+import { AlertTriangle, Rocket, MoveUp, MoveDown } from 'lucide-react';
 import type { InvestmentAnalysisResult, AlgorithmResult } from '@/lib/types/investment-analysis';
 import { Button } from '@/components/ui/button';
 
@@ -42,26 +42,26 @@ function VerdictSummary({
   holdCount: number;
 }) {
   // 1. 매도 우세 (Red)
-  if (sellCount >= 3) {
+  if (sellCount >= 4) {
     return (
       <div className="bg-red-50 border border-red-100 rounded-2xl p-4 mb-8 flex flex-col items-center text-center animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="bg-red-100 p-2 rounded-full mb-2">
-          <AlertTriangle className="w-6 h-6 text-red-600" />
+          <MoveDown className="w-6 h-6 text-red-600" />
         </div>
-        <h2 className="text-xl font-bold text-red-700">Warning! {sellCount} Gurus say SELL 🚨</h2>
+        <h2 className="text-xl font-bold text-red-700">Warning! {sellCount} Gurus say SELL</h2>
       </div>
     );
   }
 
   // 2. 매수 우세 (Green)
-  if (buyCount >= 3) {
+  if (buyCount >= 4) {
     return (
       <div className="bg-green-50 border border-green-100 rounded-2xl p-4 mb-8 flex flex-col items-center text-center animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="bg-green-100 p-2 rounded-full mb-2">
-          <Rocket className="w-6 h-6 text-green-600" />
+          <MoveUp className="w-6 h-6 text-green-600" />
         </div>
         <h2 className="text-xl font-bold text-green-700">
-          Opportunity! {buyCount} Gurus say BUY 🚀
+          Opportunity! {buyCount} Gurus say BUY
         </h2>
       </div>
     );
@@ -71,7 +71,7 @@ function VerdictSummary({
   return (
     <div className="bg-yellow-50 border border-yellow-100 rounded-2xl p-4 mb-8 flex flex-col items-center text-center animate-in fade-in slide-in-from-top-4 duration-500">
       <div className="bg-yellow-100 p-2 rounded-full mb-2">
-        <span className="text-2xl">👀</span>
+        <AlertTriangle className="w-6 h-6 text-yellow-600" />
       </div>
       <h2 className="text-xl font-bold text-yellow-700">Mixed Signals! Wait & Watch</h2>
     </div>
@@ -178,80 +178,122 @@ function GaugeChart({ score }: { score: number }) {
   );
 }
 
-// [NEW] CleanGuruCard (from testcard/page.tsx)
-// HOLD 색상은 #FFCC00 유지
-function CleanGuruCard({
-  persona,
-  result,
-  onClick,
+// [NEW] Guru Grid - Single Screen Version
+// - Fit Score number in bottom-right badge
+// - Price/trend status displayed below avatar
+// - Verdict text badge above avatar
+// - Clickable to open BottomSheet
+function GuruGrid({
+  personas,
+  data,
+  onCardClick,
 }: {
-  persona: (typeof PERSONAS)[number];
-  result: PersonaResult;
-  onClick: () => void;
+  personas: typeof PERSONAS;
+  data: InvestmentData;
+  onCardClick: (persona: (typeof PERSONAS)[number], result: PersonaResult) => void;
 }) {
-  const isBuy = result.verdict.includes('BUY');
-  const isSell = result.verdict.includes('SELL');
+  // Helper function to get verdict text
+  const getVerdictText = (verdict: string) => {
+    if (verdict === 'STRONG_BUY') return 'STRONG BUY';
+    if (verdict === 'BUY') return 'BUY';
+    if (verdict === 'SELL') return 'SELL';
+    if (verdict === 'HOLD') return 'HOLD';
+    return 'N/A';
+  };
 
-  // 상태별 색상 및 텍스트 정의 (HOLD는 #FFCC00 유지)
-  const statusColor = isBuy
-    ? 'text-green-600 bg-green-50'
-    : isSell
-    ? 'text-red-600 bg-red-50'
-    : 'text-[#FFCC00] bg-yellow-50';
-  const borderColor = isBuy
-    ? 'border-green-100'
-    : isSell
-    ? 'border-red-100'
-    : 'border-yellow-100';
-
-  // 목표가 또는 상태 표시
-  let footerContent;
-  if (persona.key === 'druckenmiller') {
-    footerContent = <span className=" font-bold">{result.trend_status || 'Neutral'}</span>;
-  } else {
-    footerContent = result.display_price ? (
-      <span className=" font-bold font-mono">${result.display_price.toFixed(0)}</span>
-    ) : (
-      <span className=" text-gray-400">-</span>
-    );
-  }
+  // Helper function to get verdict badge color
+  const getVerdictBadgeClass = (verdict: string) => {
+    if (verdict === 'STRONG_BUY' || verdict === 'BUY') {
+      return 'bg-[#34C759] text-white border-transparent'; // Green
+    }
+    if (verdict === 'SELL') {
+      return 'bg-[#FF3B30] text-white border-transparent'; // Red
+    }
+    return 'bg-[#FFCC00] text-white border-transparent'; // Yellow
+  };
 
   return (
-    <div
-      onClick={onClick}
-      className={`group relative flex flex-col items-center p-3 rounded-2xl border ${borderColor} bg-white shadow-sm hover:shadow-md transition-all cursor-pointer active:scale-95`}
-    >
-      {/* Verdict Indicator (Dot) */}
-      <div
-        className={`absolute top-3 right-3 w-2 h-2 rounded-full ${
-          isBuy ? 'bg-green-500' : isSell ? 'bg-red-500' : 'bg-[#FFCC00]'
-        }`}
-      />
+    <div className="grid grid-cols-3 gap-x-4 gap-y-6">
+      {personas.map((p) => {
+        const result = data.results[p.key];
+        const avatarPath = getPersonaAvatar(p.key, result.verdict);
+        const winRate = result.win_rate || 50;
 
-      {/* Avatar */}
-      <div className="mb-3 relative">
-        <Avatar className="w-16 h-16 ring-4 ring-white shadow-sm group-hover:scale-105 transition-transform">
-          <AvatarImage src={getPersonaAvatar(persona.key, result.verdict)} />
-          <AvatarFallback>{persona.name[0]}</AvatarFallback>
-        </Avatar>
-        {/* Win Rate Badge */}
-        <div className="absolute -bottom-2 -right-1 bg-gray-900 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold border-2 border-white">
-          {result.win_rate}%
-        </div>
-      </div>
+        // Determine badge color based on verdict
+        const badgeColor =
+          result.verdict === 'BUY' || result.verdict === 'STRONG_BUY'
+            ? 'bg-[#34C759]'
+            : result.verdict === 'SELL'
+            ? 'bg-[#FF3B30]'
+            : 'bg-[#FFCC00]';
 
-      {/* Name */}
-      <h3 className="text-sm font-semibold text-gray-900 mb-1">{persona.name}</h3>
+        // Get price/trend content
+        const isBuy = result.verdict === 'BUY' || result.verdict === 'STRONG_BUY';
+        const isSell = result.verdict === 'SELL';
+        const valueColor = isBuy
+          ? 'text-[#34C759]'
+          : isSell
+          ? 'text-[#FF3B30]'
+          : 'text-gray-900';
 
-      {/* Verdict Pill */}
-      <div className={`px-2 py-0.5 rounded-md text-xs font-bold uppercase mb-2 ${statusColor}`}>
-        {result.verdict.replace('_', ' ')}
-      </div>
+        let contentDisplay;
+        if (p.key === 'druckenmiller') {
+          const status = result.trend_status || 'Neutral';
+          contentDisplay = (
+            <div className="flex items-center justify-center gap-1">
+              <span className={`text-sm font-bold ${valueColor}`}>{status}</span>
+              {isBuy && <span className="text-xs">🚀</span>}
+              {isSell && <span className="text-xs">📉</span>}
+            </div>
+          );
+        } else {
+          const price = result.display_price ?? 0;
+          contentDisplay = (
+            <div className={`text-sm font-bold ${valueColor}`}>${price.toFixed(2)}</div>
+          );
+        }
 
-      {/* Footer: Price/Trend */}
-      <div className="w-full  border-t border-gray-100 text-center text-gray-600 ">
-        {footerContent}
-      </div>
+        return (
+          <div
+            key={p.key}
+            className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onCardClick(p, result)}
+          >
+            {/* [NEW] Verdict Text Badge (Top) */}
+            <Badge className={`mb-2 text-xs ${getVerdictBadgeClass(result.verdict)}`}>
+              {getVerdictText(result.verdict)}
+            </Badge>
+
+            {/* Avatar with Fit Score Badge */}
+            <div className="relative">
+              <Avatar
+                className={`w-20 h-20 ring-2 ring-slate-100 ${
+                  result.verdict === 'BUY' || result.verdict === 'STRONG_BUY'
+                    ? 'shadow-[0_0_20px_rgba(52,199,89,0.8)]'
+                    : result.verdict === 'SELL'
+                    ? 'shadow-[0_0_20px_rgba(255,59,48,0.8)]'
+                    : 'shadow-[0_0_20px_rgba(255,204,0,0.8)]'
+                }`}
+              >
+                <AvatarImage src={avatarPath} alt={p.name} />
+                <AvatarFallback className="bg-slate-100 text-slate-700 text-lg font-semibold">
+                  {p.name[0]}
+                </AvatarFallback>
+              </Avatar>
+
+              {/* [CHANGED] Fit Score Number Badge (bottom-right) */}
+              <div
+                className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center shadow-md ${badgeColor}`}
+              >
+                <span className="text-white text-xs font-bold">{winRate}</span>
+              </div>
+            </div>
+
+            {/* [CHANGED] Price/Trend Status Display (below avatar) */}
+            <div className="mt-2 text-center">{contentDisplay}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -350,6 +392,34 @@ function BottomSheet({
 
           <h2 className="text-2xl font-bold text-gray-900 mb-2">{persona.name}'s Insight</h2>
 
+          {/* [NEW] 목표가격/상태 & 상승확률 */}
+          <div className="flex items-center gap-4 mb-3">
+            {/* 목표가격 또는 트렌드 상태 */}
+            <div className="flex flex-col items-center">
+              <span className="text-xs text-gray-500 mb-1">
+                {persona.key === 'druckenmiller' ? 'Status' : 'Target'}
+              </span>
+              {persona.key === 'druckenmiller' ? (
+                <span className={`text-lg font-bold ${isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'}`}>
+                  {result.trend_status || 'Neutral'} {isBuy && '🚀'}
+                </span>
+              ) : (
+                <span className={`text-lg font-bold ${isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'}`}>
+                  ${(result.display_price ?? 0).toFixed(2)}
+                </span>
+              )}
+            </div>
+
+            {/* 구분선 */}
+            <div className="w-px h-10 bg-gray-200" />
+
+            {/* 상승확률 (Win Rate) */}
+            <div className="flex flex-col items-center">
+              <span className="text-xs text-gray-500 mb-1">Win Rate</span>
+              <span className="text-lg font-bold text-gray-900">{result.win_rate}%</span>
+            </div>
+          </div>
+
           {/* 번역된 한줄 요약 */}
           <div className={`px-4 py-2 rounded-xl font-bold text-sm ${themeColor}`}>
             "{translateTrigger(result.analysis_summary.trigger_code)}"
@@ -446,20 +516,10 @@ export default function TestAppleOnePage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-20">
       <div className="max-w-md mx-auto">
         {/* Header */}
-        <div className="bg-white pt-4 px-4 shadow-sm">
+        <div className="bg-white py-4 px-4 shadow-sm">
           <h1 className="text-2xl font-bold text-center mb-3">Guru Pick</h1>
           <TickerAutocomplete value={ticker} onValueChange={setTicker} />
         </div>
-
-        {/* Stock Info Display */}
-        {data && !error && (
-          <div className="bg-white px-4 py-3 border-b border-gray-100 flex justify-between items-center">
-            <span className="text-base font-medium text-gray-900">{data.ticker}</span>
-            <span className="text-base font-semibold text-gray-900">
-              Current Price: ${data.meta.current_price.toFixed(2)}
-            </span>
-          </div>
-        )}
 
         {/* Error Message */}
         {error && (
@@ -489,7 +549,7 @@ export default function TestAppleOnePage() {
             <div className="text-gray-500">Loading...</div>
           </div>
         ) : data ? (
-          <div className="p-4 space-y-12">
+          <div className="p-4 space-y-4">
             {/* 신호등 요약 배너 */}
             <VerdictSummary
               buyCount={
@@ -499,20 +559,25 @@ export default function TestAppleOnePage() {
               holdCount={data.summary.opinion_breakdown.hold}
             />
 
+            {/* Stock Price Info */}
+            <div className="text-center py-4 border-y border-gray-200 bg-white/50 rounded-xl">
+  <span className="text-sm text-gray-500">
+    {data.ticker} is currently
+  </span>
+  <span className="text-lg font-bold text-gray-900 ml-2">
+    ${data.meta.current_price.toFixed(2)}
+  </span>
+</div>
+
             {/* Gauge Chart */}
             <GaugeChart score={data.summary.total_score} />
 
-            {/* Guru Grid - Clean Card Version */}
-            <div className="grid grid-cols-3 gap-3">
-              {PERSONAS.map((p) => (
-                <CleanGuruCard
-                  key={p.key}
-                  persona={p}
-                  result={data.results[p.key]}
-                  onClick={() => setSelectedPersona({ persona: p, result: data.results[p.key] })}
-                />
-              ))}
-            </div>
+            {/* Guru Grid - Single Screen Version */}
+            <GuruGrid
+              personas={PERSONAS}
+              data={data}
+              onCardClick={(persona, result) => setSelectedPersona({ persona, result })}
+            />
           </div>
         ) : null}
 

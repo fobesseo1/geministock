@@ -1,6 +1,7 @@
 import type { CombinedStockData } from '@/lib/types/combined-stock-data';
 import type { AlgorithmResult } from '@/lib/types/investment-analysis';
 import { calculateCAGR } from '../utils/flexible-average';
+import { calculateDisplayPrice } from '@/lib/utils/price-adjuster';
 
 /**
  * Helper: Calculate Adjusted Graham Valuation
@@ -45,6 +46,9 @@ export function calculateGrahamAnalysis(data: CombinedStockData): AlgorithmResul
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -68,6 +72,9 @@ export function calculateGrahamAnalysis(data: CombinedStockData): AlgorithmResul
         profit_zone_min: null,
         stop_loss: null,
       },
+      display_price: null,
+      price_status: 'NORMAL',
+      win_rate: 50,
     };
   }
 
@@ -172,9 +179,42 @@ export function calculateGrahamAnalysis(data: CombinedStockData): AlgorithmResul
   else if (verdict === 'HOLD') trigger_code = 'HOLD_MODERATE_PREMIUM';
   else trigger_code = 'SELL_OVERPRICED';
 
+  // [V2] Win Rate Calculation - Graham Strategy
+  // Base: 50, adjusts based on discount to Graham Number
+  let winRate = 50;
+  const discount = (grahamNumber - current_price) / grahamNumber;
+
+  // Discount Score (할인율이 클수록 승률 상승)
+  if (discount > 0.33) winRate += 40; // 33% 이상 할인 (안전마진 확보)
+  else if (discount > 0.1) winRate += 20; // 10% 이상 할인
+  else if (discount < -0.2) winRate -= 30; // 20% 이상 프리미엄 (비쌈)
+  else if (discount < -0.5) winRate -= 45; // 50% 이상 프리미엄 (매우 비쌈)
+
+  // Clamp to 1-99%
+  winRate = Math.min(99, Math.max(1, Math.round(winRate)));
+
+  // ---------------------------------------------------------
+  // [UX 개선]
+  // 기존: target_price가 항상 '안전마진 가격(0.67)'이라서 일반 BUY일 때 역전 현상 발생
+  // 변경: BUY/STRONG_BUY일 때는 '제값(Graham Number)'을 목표가로 제시
+  // ---------------------------------------------------------
+  let finalDisplayPrice: number;
+
+  if (verdict === 'STRONG_BUY' || verdict === 'BUY') {
+    finalDisplayPrice = grahamNumber; // "이 주식의 진짜 가치는 여기다"
+  } else {
+    finalDisplayPrice = marginPrice; // 안 살 때는 보수적인 진입 가격 제시
+  }
+
+  // [V2] Display Price Calculation (Soft Cap/Floor)
+  const { display_price, price_status } = calculateDisplayPrice(
+    current_price,
+    finalDisplayPrice
+  );
+
   return {
     verdict,
-    target_price: grahamNumber * 0.67, // 안전마진 가격을 목표가로
+    target_price: finalDisplayPrice, // UX 개선된 목표가 사용
     sell_price: grahamNumber * 1.2, // 과대평가 기준을 매도가로
     logic,
     analysis_summary: {
@@ -190,6 +230,9 @@ export function calculateGrahamAnalysis(data: CombinedStockData): AlgorithmResul
       profit_zone_min: grahamNumber * 1.2, // 20% 오버슈팅 시 매도 고려
       stop_loss: null,
     },
+    display_price,
+    price_status,
+    win_rate: winRate,
     metric_name: 'Graham Number',
     metric_value: grahamNumber,
     fair_price: grahamNumber,

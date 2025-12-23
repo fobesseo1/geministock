@@ -1,10 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { TickerAutocomplete } from '@/components/TickerAutocomplete';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, Rocket, MoveUp, MoveDown } from 'lucide-react';
+import {
+  AlertTriangle,
+  Rocket,
+  MoveUp,
+  MoveDown,
+  ChevronLeft,
+  Menu,
+  Target,
+  Brain,
+  Zap,
+} from 'lucide-react';
 import type { InvestmentAnalysisResult, AlgorithmResult } from '@/lib/types/investment-analysis';
 import { Button } from '@/components/ui/button';
 
@@ -60,9 +71,7 @@ function VerdictSummary({
         <div className="bg-green-100 p-2 rounded-full mb-2">
           <MoveUp className="w-6 h-6 text-green-600" />
         </div>
-        <h2 className="text-xl font-bold text-green-700">
-          Opportunity! {buyCount} Gurus say BUY
-        </h2>
+        <h2 className="text-xl font-bold text-green-700">Opportunity! {buyCount} Gurus say BUY</h2>
       </div>
     );
   }
@@ -230,11 +239,7 @@ function GuruGrid({
         // Get price/trend content
         const isBuy = result.verdict === 'BUY' || result.verdict === 'STRONG_BUY';
         const isSell = result.verdict === 'SELL';
-        const valueColor = isBuy
-          ? 'text-[#34C759]'
-          : isSell
-          ? 'text-[#FF3B30]'
-          : 'text-gray-900';
+        const valueColor = isBuy ? 'text-[#34C759]' : isSell ? 'text-[#FF3B30]' : 'text-gray-900';
 
         let contentDisplay;
         if (p.key === 'druckenmiller') {
@@ -400,11 +405,19 @@ function BottomSheet({
                 {persona.key === 'druckenmiller' ? 'Status' : 'Target'}
               </span>
               {persona.key === 'druckenmiller' ? (
-                <span className={`text-lg font-bold ${isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'}`}>
+                <span
+                  className={`text-lg font-bold ${
+                    isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'
+                  }`}
+                >
                   {result.trend_status || 'Neutral'} {isBuy && '🚀'}
                 </span>
               ) : (
-                <span className={`text-lg font-bold ${isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'}`}>
+                <span
+                  className={`text-lg font-bold ${
+                    isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'
+                  }`}
+                >
                   ${(result.display_price ?? 0).toFixed(2)}
                 </span>
               )}
@@ -468,9 +481,78 @@ function BottomSheet({
   );
 }
 
+// Welcome Screen Component
+function WelcomeScreen({ onSelectTicker }: { onSelectTicker: (ticker: string) => void }) {
+  const popularStocks = [
+    { ticker: 'AAPL', name: 'Apple', logo: '/logos/AAPL.webp' },
+    { ticker: 'TSLA', name: 'Tesla', logo: '/logos/TSLA.webp' },
+    { ticker: 'NVDA', name: 'NVIDIA', logo: '/logos/NVDA.webp' },
+    { ticker: 'MSFT', name: 'Microsoft', logo: '/logos/MSFT.webp' },
+    { ticker: 'GOOGL', name: 'Google', logo: '/logos/GOOGL.webp' },
+    { ticker: 'AMZN', name: 'Amazon', logo: '/logos/AMZN.webp' },
+  ];
+
+  return (
+    <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
+      {/* Hero Section */}
+      <div className="mb-8">
+        <div className="mb-4 animate-bounce">
+          <Target className="w-16 h-16 mx-auto " />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Guru Pick</h2>
+        <p className="text-gray-500 text-sm max-w-xs">
+          Get insights from 6 legendary investors in seconds
+        </p>
+      </div>
+
+      {/* Popular Stocks */}
+      <div className="w-full max-w-sm space-y-4">
+        <p className="text-sm text-gray-600 font-medium">Try searching for popular stocks:</p>
+        <div className="grid grid-cols-2 gap-3">
+          {popularStocks.map((stock) => (
+            <button
+              key={stock.ticker}
+              onClick={() => onSelectTicker(stock.ticker)}
+              className="flex items-center justify-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-md transition-all active:scale-95"
+            >
+              <img src={stock.logo} alt={stock.name} className="w-8 h-8 object-contain" />
+              <div className="text-left">
+                <div className="font-bold text-gray-900 text-sm">{stock.ticker}</div>
+                <div className="text-xs text-gray-500">{stock.name}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Info Cards */}
+      <div className="mt-10 space-y-3 w-full max-w-sm">
+        <div className="flex items-start gap-3 p-3 rounded-lg border border-blue-100">
+          <Brain className="w-8 h-8 " />
+          <div className="text-left">
+            <div className="font-semibold text-sm text-blue-900">6 Investment Strategies</div>
+            <div className="text-xs text-gray-700">
+              Buffett, Lynch, Graham, Fisher, Druckenmiller, Marks
+            </div>
+          </div>
+        </div>
+        <div className="flex items-start gap-3 p-3  rounded-lg border border-green-100">
+          <Zap className="w-8 h-8 " />
+          <div className="text-left">
+            <div className="font-semibold text-sm ">Instant Analysis</div>
+            <div className="text-xs text-gray-700">Real-time data with AI-powered insights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // --- Main Page ---
 export default function TestAppleOnePage() {
-  const [ticker, setTicker] = useState('AAPL');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [ticker, setTicker] = useState(''); // 빈 값으로 시작
   const [data, setData] = useState<InvestmentData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -479,7 +561,49 @@ export default function TestAppleOnePage() {
     result: PersonaResult;
   } | null>(null);
 
+  // URL 쿼리 파라미터에서 ticker 읽기 (초기 로드 시)
   useEffect(() => {
+    const urlTicker = searchParams.get('ticker');
+    if (urlTicker) {
+      setTicker(urlTicker);
+    }
+  }, [searchParams]);
+
+  // ticker 변경 시 URL 업데이트
+  const updateTicker = (newTicker: string) => {
+    setTicker(newTicker);
+    if (newTicker) {
+      // URL에 쿼리 파라미터 추가 (히스토리에 추가)
+      const url = new URL(window.location.href);
+      url.searchParams.set('ticker', newTicker);
+      window.history.pushState({}, '', url.toString());
+    } else {
+      // ticker가 빈 값이면 쿼리 파라미터 제거
+      const url = new URL(window.location.href);
+      url.searchParams.delete('ticker');
+      window.history.pushState({}, '', url.toString());
+    }
+  };
+
+  // 뒤로가기/앞으로가기 이벤트 처리
+  useEffect(() => {
+    const handlePopState = () => {
+      const urlTicker = new URLSearchParams(window.location.search).get('ticker');
+      setTicker(urlTicker || '');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    // ticker가 비어있으면 데이터를 가져오지 않음
+    if (!ticker) {
+      setData(null);
+      setError(null);
+      return;
+    }
+
     const fetchData = async () => {
       setLoading(true);
       setError(null);
@@ -517,8 +641,30 @@ export default function TestAppleOnePage() {
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="bg-white py-4 px-4 shadow-sm">
-          <h1 className="text-2xl font-bold text-center mb-3">Guru Pick</h1>
-          <TickerAutocomplete value={ticker} onValueChange={setTicker} />
+          {/* Title Bar with Icons */}
+          <div className="flex items-center justify-between mb-3">
+            {/* Back Button */}
+            <button
+              onClick={() => router.back()}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Go back"
+            >
+              <ChevronLeft className="w-6 h-6 text-gray-700" />
+            </button>
+
+            {/* Title */}
+            <h1 className="text-2xl font-bold">Guru Pick</h1>
+
+            {/* Hamburger Menu */}
+            <button
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Menu"
+            >
+              <Menu className="w-6 h-6 text-gray-700" />
+            </button>
+          </div>
+
+          <TickerAutocomplete value={ticker} onValueChange={updateTicker} />
         </div>
 
         {/* Error Message */}
@@ -544,7 +690,10 @@ export default function TestAppleOnePage() {
         )}
 
         {/* Content */}
-        {loading ? (
+        {!ticker ? (
+          // Welcome Screen when no ticker is selected
+          <WelcomeScreen onSelectTicker={updateTicker} />
+        ) : loading ? (
           <div className="flex items-center justify-center py-32">
             <div className="text-gray-500">Loading...</div>
           </div>
@@ -561,13 +710,11 @@ export default function TestAppleOnePage() {
 
             {/* Stock Price Info */}
             <div className="text-center py-4 border-y border-gray-200 bg-white/50 rounded-xl">
-  <span className="text-sm text-gray-500">
-    {data.ticker} is currently
-  </span>
-  <span className="text-lg font-bold text-gray-900 ml-2">
-    ${data.meta.current_price.toFixed(2)}
-  </span>
-</div>
+              <span className="text-sm text-gray-500">{data.ticker} is currently</span>
+              <span className="text-lg font-bold text-gray-900 ml-2">
+                ${data.meta.current_price.toFixed(2)}
+              </span>
+            </div>
 
             {/* Gauge Chart */}
             <GaugeChart score={data.summary.total_score} />

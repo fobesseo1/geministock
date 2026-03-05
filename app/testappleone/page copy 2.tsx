@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { TickerAutocomplete } from '@/components/TickerAutocomplete';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
   AlertTriangle,
   MoveUp,
@@ -17,87 +16,33 @@ import {
   Zap,
 } from 'lucide-react';
 import type { InvestmentAnalysisResult, AlgorithmResult } from '@/lib/types/investment-analysis';
+import { Button } from '@/components/ui/button';
 
-// --- Types & Constants ---
-
+// Type aliases for code readability
 type InvestmentData = InvestmentAnalysisResult;
 type PersonaResult = AlgorithmResult;
 
-// 7 Legendary Investors
+// [FIX 1] Marks -> O'Neil 변경
 const PERSONAS = [
-  // 1. Value Group (The Classics)
   { key: 'buffett', name: 'Buffett', avatar: '/persona/main/buffett.png' },
   { key: 'graham', name: 'Graham', avatar: '/persona/main/graham.png' },
-  // 2. Trend Group (The Traders)
-  { key: 'druckenmiller', name: 'Druckenmiller', avatar: '/persona/main/druckenmiller.png' },
-  { key: 'oneil', name: "O'Neil", avatar: '/persona/main/oneil.png' },
-  // 3. Growth & Others (The Specialists)
   { key: 'lynch', name: 'Lynch', avatar: '/persona/main/lynch.png' },
   { key: 'fisher', name: 'Fisher', avatar: '/persona/main/fisher.png' },
-  { key: 'marks', name: 'Marks', avatar: '/persona/main/marks.png' },
+  { key: 'druckenmiller', name: 'Druckenmiller', avatar: '/persona/main/druckenmiller.png' },
+  { key: 'oneil', name: "O'Neil", avatar: '/persona/main/oneil.png' }, // Marks 대체
 ] as const;
 
-// --- Helper Functions ---
+// --- Components ---
 
+// Helper: Get avatar path
 function getPersonaAvatar(personaKey: string, verdict: string) {
-  // 감정 표현 로직 (Happy / Neutral / Sad)
   if (verdict === 'STRONG_BUY' || verdict === 'BUY')
     return `/persona/faces/${personaKey}_happy.webp`;
   if (verdict === 'HOLD') return `/persona/faces/${personaKey}_neutral.webp`;
   return `/persona/faces/${personaKey}_sad.webp`;
 }
 
-// Trigger Code 번역기 (7명 모두 포함)
-const translateTrigger = (code: string) => {
-  const map: Record<string, string> = {
-    // --- 1. Value Group (Buffett & Graham) ---
-    BUY_MOAT_BARGAIN: '💎 Rare bargain! Great company on sale.',
-    BUY_QUALITY_FAIR: '👍 High quality at a fair price.',
-    HOLD_MOAT_FAIR: '👀 Great company, but price is just okay.',
-    SELL_MOAT_EXPENSIVE: '🏢 Great business, but too expensive.',
-
-    BUY_DEEP_VALUE: '🏷️ Deep Value! Safety margin secured.',
-    BUY_FAIR_VALUE: '💰 Trading below intrinsic value.',
-    HOLD_MODERATE_PREMIUM: '🤔 Slightly above fair value.',
-    SELL_OVERPRICED: '🎈 Overvalued vs. assets/earnings.',
-    AVOID_NO_EARNINGS: '🚫 No earnings. Too risky.',
-
-    // --- 2. Trend Group (Druckenmiller & O'Neil) [Unified] ---
-    TREND_BREAKOUT_GROWTH: '🚀 Breakout! Price at highs + Earnings growing.',
-    TREND_PULLBACK_OPPORTUNITY: '📉 Healthy pullback in uptrend. Buy the dip.',
-    TREND_WARNING_NO_EARNINGS: '⚠️ Price is strong, but earnings are weak.',
-    TREND_NEUTRAL_SIDEWAYS: '💤 Trend is flat. Waiting for momentum.',
-    TREND_CRASH_BROKEN: '🛑 Trend broken. Price below 200-day MA.',
-
-    // --- 3. Growth Group (Lynch) ---
-    BUY_FAST_GROWER: '🚀 Fast grower at a bargain (PEG < 0.5).',
-    BUY_STALWART: '🌳 Reliable grower at a good price.',
-    HOLD_FAIR_VALUE: '⚖️ Priced correctly for its growth.',
-    SELL_PEG_EXPENSIVE: '🐢 Price is outpacing growth.',
-    SELL_DEBT_RISK: '💸 Dangerous debt levels.',
-
-    // --- 4. Sales Group (Fisher) ---
-    BUY_PSR_BARGAIN: '📊 15%+ cheaper than avg PSR. Buy!',
-    BUY_PSR_FAIR: '📉 Below historical Price-to-Sales avg.',
-    HOLD_PSR_BAND: '↔️ Within normal valuation range.',
-    SELL_PSR_EXPENSIVE: '🔥 Price-to-Sales at all-time highs.',
-
-    // --- 5. Cycle Group (Marks) ---
-    BUY_PANIC_BOTTOM: '😱 Panic bottom! Be aggressive.',
-    BUY_CYCLE_BOTTOM: '📉 Cycle low. Good time to accumulate.',
-    HOLD_MID_CYCLE: '🤷 Mid-cycle. Neutral positioning.',
-    SELL_EUPHORIA_TOP: '🥂 Euphoria top! Take profits.',
-
-    // Errors
-    DATA_INSUFFICIENT: 'Not enough data.',
-    DATA_INVALID: 'Data error.',
-  };
-  return map[code] || code;
-};
-
-// --- Sub-Components ---
-
-// 1. Verdict Summary Banner
+// 신호등 요약 배너
 function VerdictSummary({
   buyCount,
   sellCount,
@@ -139,18 +84,17 @@ function VerdictSummary({
   );
 }
 
-// 2. Gauge Chart
+// Gauge Chart (반원형)
 function GaugeChart({ score }: { score: number }) {
   const getColor = () => {
-    if (score >= 80) return '#34C759'; // Strong Green
-    if (score >= 60) return '#34C759'; // Green
-    if (score >= 40) return '#FFCC00'; // Yellow
+    if (score >= 61) return '#34C759'; // Green
+    if (score >= 41) return '#FFCC00'; // Yellow
     return '#FF3B30'; // Red
   };
 
   const getGradientColors = () => {
-    if (score >= 60) return { start: '#7DE39F', end: '#34C759' };
-    if (score >= 40) return { start: '#FFE066', end: '#FFCC00' };
+    if (score >= 61) return { start: '#7DE39F', end: '#34C759' };
+    if (score >= 41) return { start: '#FFE066', end: '#FFCC00' };
     return { start: '#FF7A66', end: '#FF3B30' };
   };
 
@@ -171,20 +115,28 @@ function GaugeChart({ score }: { score: number }) {
           background: `radial-gradient(circle, ${mainColor} 0%, transparent 70%)`,
         }}
       />
+
       <svg viewBox="0 0 200 130" className="relative z-10 w-full h-auto overflow-visible">
         <defs>
           <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={gradientColors.start} />
             <stop offset="100%" stopColor={gradientColors.end} />
           </linearGradient>
+
           <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#F0F0F0" />
             <stop offset="100%" stopColor="#E5E5EA" />
           </linearGradient>
+
           <filter id="gaugeShadow" x="-20%" y="-20%" width="140%" height="140%">
             <feDropShadow dx="0" dy="3" stdDeviation="4" floodOpacity="0.2" />
           </filter>
+
+          <filter id="textShadow">
+            <feDropShadow dx="0" dy="1" stdDeviation="1" floodOpacity="0.1" />
+          </filter>
         </defs>
+
         <path
           d="M 20 100 A 80 80 0 0 1 180 100"
           fill="none"
@@ -192,6 +144,7 @@ function GaugeChart({ score }: { score: number }) {
           strokeWidth="24"
           strokeLinecap="round"
         />
+
         <path
           d="M 20 100 A 80 80 0 0 1 180 100"
           fill="none"
@@ -202,6 +155,7 @@ function GaugeChart({ score }: { score: number }) {
           filter="url(#gaugeShadow)"
           style={{ transition: 'stroke-dasharray 1.2s cubic-bezier(0.4, 0, 0.2, 1)' }}
         />
+
         <g
           transform={`translate(${arrowX}, ${arrowY}) rotate(${-arrowAngle + 90})`}
           style={{
@@ -211,18 +165,26 @@ function GaugeChart({ score }: { score: number }) {
         >
           <path d="M 0 -8 L 6 4 L -6 4 Z" fill={mainColor} filter="url(#gaugeShadow)" />
         </g>
-        <text x="100" y="85" textAnchor="middle" className="text-4xl font-bold" fill="#1C1C1E">
+
+        <text
+          x="100"
+          y="85"
+          textAnchor="middle"
+          className="text-4xl font-bold"
+          fill="#1C1C1E"
+          filter="url(#textShadow)"
+        >
           {score}
         </text>
         <text x="100" y="105" textAnchor="middle" className="text-xs" fill="#8E8E93">
-          Total Score
+          Investment Score
         </text>
       </svg>
     </div>
   );
 }
 
-// 3. Guru Grid
+// [NEW] Guru Grid
 function GuruGrid({
   personas,
   data,
@@ -232,6 +194,14 @@ function GuruGrid({
   data: InvestmentData;
   onCardClick: (persona: (typeof PERSONAS)[number], result: PersonaResult) => void;
 }) {
+  const getVerdictText = (verdict: string) => {
+    if (verdict === 'STRONG_BUY') return 'STRONG BUY';
+    if (verdict === 'BUY') return 'BUY';
+    if (verdict === 'SELL') return 'SELL';
+    if (verdict === 'HOLD') return 'HOLD';
+    return 'N/A';
+  };
+
   const getVerdictBadgeClass = (verdict: string) => {
     if (verdict === 'STRONG_BUY' || verdict === 'BUY') {
       return 'bg-[#34C759] text-white border-transparent';
@@ -245,36 +215,39 @@ function GuruGrid({
   return (
     <div className="grid grid-cols-3 gap-x-4 gap-y-6">
       {personas.map((p) => {
-        // any casting to avoid strict key checking if types aren't fully synced yet
+        // [FIX 2] p.key가 'oneil'일 때 data.results['oneil'] 접근
+        // TS 오류 방지를 위해 any 캐스팅 없이 접근하려면 types/investment-analysis.ts가 먼저 업데이트 되어 있어야 함
+        // 여기서는 data.results가 이미 oneil을 포함한다고 가정
         const result = data.results[p.key as keyof typeof data.results];
 
-        if (!result) return null;
+        if (!result) return null; // 만약 데이터가 없으면 렌더링 안 함
 
         const avatarPath = getPersonaAvatar(p.key, result.verdict);
         const winRate = result.win_rate || 50;
-        const isBuy = result.verdict.includes('BUY');
-        const isSell = result.verdict === 'SELL';
 
-        const badgeColor = isBuy ? 'bg-[#34C759]' : isSell ? 'bg-[#FF3B30]' : 'bg-[#FFCC00]';
+        const badgeColor =
+          result.verdict === 'BUY' || result.verdict === 'STRONG_BUY'
+            ? 'bg-[#34C759]'
+            : result.verdict === 'SELL'
+            ? 'bg-[#FF3B30]'
+            : 'bg-[#FFCC00]';
+
+        const isBuy = result.verdict === 'BUY' || result.verdict === 'STRONG_BUY';
+        const isSell = result.verdict === 'SELL';
         const valueColor = isBuy ? 'text-[#34C759]' : isSell ? 'text-[#FF3B30]' : 'text-gray-900';
 
-        // Display Logic: Trend Followers vs Others
-        // Druckenmiller & O'Neil show "Status" (e.g. Breakout), Others show Price
-        const isTrendFollower = ['druckenmiller', 'oneil'].includes(p.key);
-
         let contentDisplay;
-        if (isTrendFollower) {
-          // 추세 추종자는 가격 대신 상태 메시지 표시
+        // [FIX 3] 오닐도 드러컨밀러처럼 Trend Status를 보여줌
+        if (p.key === 'druckenmiller' || p.key === 'oneil') {
+          const status = result.trend_status || 'Neutral';
           contentDisplay = (
             <div className="flex items-center justify-center gap-1">
-              <span className={`text-[11px] font-bold leading-tight ${valueColor}`}>
-                {result.trend_status || 'Neutral'}
-              </span>
-              {isBuy && <span className="text-[10px]">🚀</span>}
+              <span className={`text-sm font-bold ${valueColor}`}>{status}</span>
+              {isBuy && <span className="text-xs">🚀</span>}
+              {isSell && <span className="text-xs">📉</span>}
             </div>
           );
         } else {
-          // 가치 투자자는 목표가 또는 적정가 표시
           const price = result.display_price ?? 0;
           contentDisplay = (
             <div className={`text-sm font-bold ${valueColor}`}>${price.toFixed(2)}</div>
@@ -287,22 +260,18 @@ function GuruGrid({
             className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => onCardClick(p, result)}
           >
-            <Badge
-              className={`mb-2 text-[10px] px-1.5 py-0.5 h-5 ${getVerdictBadgeClass(
-                result.verdict
-              )}`}
-            >
-              {result.verdict.replace('_', ' ')}
+            <Badge className={`mb-2 text-xs ${getVerdictBadgeClass(result.verdict)}`}>
+              {getVerdictText(result.verdict)}
             </Badge>
 
             <div className="relative">
               <Avatar
-                className={`w-16 h-16 md:w-20 md:h-20 ring-2 ring-slate-100 ${
-                  isBuy
-                    ? 'shadow-[0_0_15px_rgba(52,199,89,0.6)]'
-                    : isSell
-                    ? 'shadow-[0_0_15px_rgba(255,59,48,0.6)]'
-                    : 'shadow-[0_0_15px_rgba(255,204,0,0.6)]'
+                className={`w-20 h-20 ring-2 ring-slate-100 ${
+                  result.verdict === 'BUY' || result.verdict === 'STRONG_BUY'
+                    ? 'shadow-[0_0_20px_rgba(52,199,89,0.8)]'
+                    : result.verdict === 'SELL'
+                    ? 'shadow-[0_0_20px_rgba(255,59,48,0.8)]'
+                    : 'shadow-[0_0_20px_rgba(255,204,0,0.8)]'
                 }`}
               >
                 <AvatarImage src={avatarPath} alt={p.name} />
@@ -318,10 +287,7 @@ function GuruGrid({
               </div>
             </div>
 
-            <div className="mt-2 text-center w-full">
-              <div className="text-xs text-gray-500 font-medium mb-0.5">{p.name}</div>
-              {contentDisplay}
-            </div>
+            <div className="mt-2 text-center">{contentDisplay}</div>
           </div>
         );
       })}
@@ -329,7 +295,58 @@ function GuruGrid({
   );
 }
 
-// 4. Bottom Sheet Modal
+// [FIX 4] Trigger Code 업데이트 (Marks 삭제, O'Neil 추가)
+const translateTrigger = (code: string) => {
+  const map: Record<string, string> = {
+    // --- 1. Warren Buffett ---
+    BUY_MOAT_BARGAIN: "💎 A great company on sale! It's a rare bargain.",
+    BUY_QUALITY_FAIR: '👍 High-quality stock at a fair price. Good to go.',
+    HOLD_MOAT_FAIR: '👀 Great company, but the price is just "okay" right now.',
+    SELL_MOAT_EXPENSIVE: '🏢 Amazing company, but the price is way too high.',
+
+    // --- 2. Peter Lynch ---
+    BUY_FAST_GROWER: '🚀 Insane growth at a bargain price! (PEG < 0.5)',
+    BUY_STALWART: '🌳 A sturdy, reliable grower. Safe and steady.',
+    HOLD_FAIR_VALUE: '⚖️ Priced exactly right for its growth speed.',
+    SELL_PEG_EXPENSIVE: '🐢 Price is running way faster than its growth.',
+    SELL_DEBT_RISK: '💸 Too much debt! Financial health is risky.',
+    HOLD_DEBT_WARNING: '⚠️ Debt levels are getting concerning. Be careful.',
+
+    // --- 3. Benjamin Graham ---
+    BUY_DEEP_VALUE: "🏷️ Safety margin secured! It's dirt cheap.",
+    BUY_FAIR_VALUE: '💰 Trading below its "real" intrinsic value.',
+    HOLD_MODERATE_PREMIUM: '🤔 Slightly above fair value, but still acceptable.',
+    SELL_OVERPRICED: "🎈 It's a bubble. Way above its intrinsic value.",
+    AVOID_NO_EARNINGS: '🚫 This company loses money. Graham avoids these.',
+
+    // --- 4. Ken Fisher ---
+    BUY_PSR_BARGAIN: '📊 15%+ cheaper than historical average! Rare chance.',
+    BUY_PSR_FAIR: '📉 Cheaper than its 3-year average price.',
+    HOLD_PSR_BAND: '↔️ Moving within its normal historical price range.',
+    SELL_PSR_EXPENSIVE: '🔥 Price vs. Sales is at an all-time high. Overheated!',
+
+    // --- 5. Stanley Druckenmiller ---
+    BUY_PERFECT_BREAKOUT: '📈 New Highs + Earnings Growth! Jump on the trend.',
+    BUY_DIP_OPPORTUNITY: '📉 A dip in a solid uptrend. Good chance to buy.',
+    HOLD_FAKE_BREAKOUT_RISK: "⚠️ Price is up, but earnings aren't. Watch out for a fake-out.",
+    HOLD_NO_CATALYST: '💤 No reason to move up or down. Boring market.',
+    SELL_TREND_BROKEN: "📉 The trend is broken. Run, don't walk!",
+
+    // --- [NEW] 6. William O'Neil (Marks 대체) ---
+    BUY_PERFECT_CANSLIM: '🏆 Perfect CAN SLIM! Trend + Breakout + Growth.',
+    BUY_BASE_BUILDING: '🧱 Strong uptrend & growth. Building a base for takeoff.',
+    HOLD_NO_EARNINGS: '⚠️ Price is high, but no earnings support. Risky bet.',
+    HOLD_WEAK_MOMENTUM: '💤 Uptrend is alive, but lacks explosive power.',
+
+    // --- Common Errors ---
+    DATA_INSUFFICIENT: 'Not enough data to make a call.',
+    DATA_INVALID: 'Data error. Cannot analyze right now.',
+  };
+
+  return map[code] || 'Complex situation. Check details below.';
+};
+
+// Bottom Sheet Modal
 function BottomSheet({
   isOpen,
   onClose,
@@ -345,8 +362,6 @@ function BottomSheet({
 
   const isBuy = result.verdict.includes('BUY');
   const isSell = result.verdict.includes('SELL');
-  const isTrendFollower = ['druckenmiller', 'oneil'].includes(persona.key);
-
   const themeColor = isBuy
     ? 'text-green-600 bg-green-50'
     : isSell
@@ -359,44 +374,53 @@ function BottomSheet({
       onClick={onClose}
     >
       <div
-        className="bg-white w-full rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom-10 duration-300"
+        className="bg-white w-full rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto animate-in slide-in-from-bottom-10 duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-8" />
 
         <div className="flex flex-col items-center text-center mb-8">
-          <Avatar className="w-24 h-24 mb-4 ring-4 ring-white shadow-lg">
+          <Avatar className="w-20 h-20 mb-4 ring-4 ring-white shadow-lg">
             <AvatarImage src={getPersonaAvatar(persona.key, result.verdict)} />
             <AvatarFallback>{persona.name[0]}</AvatarFallback>
           </Avatar>
 
           <h2 className="text-2xl font-bold text-gray-900 mb-2">{persona.name}'s Insight</h2>
 
-          <div className="flex items-center gap-8 mt-4">
+          <div className="flex items-center gap-4 mb-3">
             <div className="flex flex-col items-center">
-              <span className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                {isTrendFollower ? 'Trend Status' : 'Target Price'}
+              {/* [FIX 5] 오닐도 Status로 표시 */}
+              <span className="text-xs text-gray-500 mb-1">
+                {persona.key === 'druckenmiller' || persona.key === 'oneil' ? 'Status' : 'Target'}
               </span>
-              <span
-                className={`text-xl font-bold ${
-                  isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-900'
-                }`}
-              >
-                {isTrendFollower
-                  ? result.trend_status || 'Neutral'
-                  : `$${(result.display_price ?? 0).toFixed(2)}`}
-              </span>
+              {persona.key === 'druckenmiller' || persona.key === 'oneil' ? (
+                <span
+                  className={`text-lg font-bold ${
+                    isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'
+                  }`}
+                >
+                  {result.trend_status || 'Neutral'} {isBuy && '🚀'}
+                </span>
+              ) : (
+                <span
+                  className={`text-lg font-bold ${
+                    isBuy ? 'text-green-600' : isSell ? 'text-red-600' : 'text-gray-600'
+                  }`}
+                >
+                  ${(result.display_price ?? 0).toFixed(2)}
+                </span>
+              )}
             </div>
 
             <div className="w-px h-10 bg-gray-200" />
 
             <div className="flex flex-col items-center">
-              <span className="text-xs text-gray-500 uppercase tracking-wide mb-1">Score</span>
-              <span className="text-xl font-bold text-gray-900">{result.win_rate}</span>
+              <span className="text-xs text-gray-500 mb-1">Win Rate</span>
+              <span className="text-lg font-bold text-gray-900">{result.win_rate}%</span>
             </div>
           </div>
 
-          <div className={`mt-6 px-4 py-3 rounded-xl font-bold text-sm ${themeColor}`}>
+          <div className={`px-4 py-2 rounded-xl font-bold text-sm ${themeColor}`}>
             "{translateTrigger(result.analysis_summary.trigger_code)}"
           </div>
         </div>
@@ -406,14 +430,12 @@ function BottomSheet({
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Why?
             </h3>
-            <p className="text-gray-800 leading-relaxed font-medium text-sm md:text-base">
-              {result.logic}
-            </p>
+            <p className="text-gray-800 leading-relaxed font-medium">{result.logic}</p>
           </div>
 
           <div>
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
-              Key Factors
+              Checklist
             </h3>
             <div className="space-y-3">
               {Object.entries(result.analysis_summary.key_factors).map(([key, value]) => (
@@ -421,8 +443,8 @@ function BottomSheet({
                   key={key}
                   className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0"
                 >
-                  <span className="text-gray-600 text-sm capitalize">{key.replace(/_/g, ' ')}</span>
-                  <span className="font-bold text-gray-900 text-sm">
+                  <span className="text-gray-600 capitalize">{key.replace(/_/g, ' ')}</span>
+                  <span className="font-bold text-gray-900">
                     {typeof value === 'number' ? value.toLocaleString() : String(value)}
                   </span>
                 </div>
@@ -433,7 +455,7 @@ function BottomSheet({
 
         <Button
           onClick={onClose}
-          className="w-full mt-8 text-white bg-gray-900 rounded-full text-lg py-6"
+          className="w-full mt-8 text-white bg-gray-900 rounded-full text-lg"
         >
           Close
         </Button>
@@ -442,7 +464,7 @@ function BottomSheet({
   );
 }
 
-// 5. Welcome Screen
+// Welcome Screen Component
 function WelcomeScreen({ onSelectTicker }: { onSelectTicker: (ticker: string) => void }) {
   const popularStocks = [
     { ticker: 'AAPL', name: 'Apple', logo: '/logos/AAPL.webp' },
@@ -457,11 +479,11 @@ function WelcomeScreen({ onSelectTicker }: { onSelectTicker: (ticker: string) =>
     <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
       <div className="mb-8">
         <div className="mb-4 animate-bounce">
-          <Target className="w-16 h-16 mx-auto text-blue-500" />
+          <Target className="w-16 h-16 mx-auto " />
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome to Guru Pick</h2>
-        <p className="text-gray-500 text-sm max-w-xs mx-auto">
-          Get insights from 7 legendary investors in seconds
+        <p className="text-gray-500 text-sm max-w-xs">
+          Get insights from 6 legendary investors in seconds
         </p>
       </div>
 
@@ -485,17 +507,20 @@ function WelcomeScreen({ onSelectTicker }: { onSelectTicker: (ticker: string) =>
       </div>
 
       <div className="mt-10 space-y-3 w-full max-w-sm">
-        <div className="flex items-start gap-3 p-3 rounded-lg border border-blue-50 bg-blue-50/50">
-          <Brain className="w-6 h-6 text-blue-600 shrink-0" />
+        <div className="flex items-start gap-3 p-3 rounded-lg border border-blue-100">
+          <Brain className="w-8 h-8 " />
           <div className="text-left">
-            <div className="font-semibold text-sm text-blue-900">5 Strategy Groups</div>
-            <div className="text-xs text-gray-700">Value, Trend, Growth, Sales, Cycle</div>
+            <div className="font-semibold text-sm text-blue-900">6 Investment Strategies</div>
+            {/* [FIX 6] Marks -> O'Neil 텍스트 변경 */}
+            <div className="text-xs text-gray-700">
+              Buffett, Lynch, Graham, Fisher, Druckenmiller, O'Neil
+            </div>
           </div>
         </div>
-        <div className="flex items-start gap-3 p-3 rounded-lg border border-green-50 bg-green-50/50">
-          <Zap className="w-6 h-6 text-green-600 shrink-0" />
+        <div className="flex items-start gap-3 p-3  rounded-lg border border-green-100">
+          <Zap className="w-8 h-8 " />
           <div className="text-left">
-            <div className="font-semibold text-sm text-green-900">Instant Analysis</div>
+            <div className="font-semibold text-sm ">Instant Analysis</div>
             <div className="text-xs text-gray-700">Real-time data with AI-powered insights</div>
           </div>
         </div>
@@ -504,8 +529,7 @@ function WelcomeScreen({ onSelectTicker }: { onSelectTicker: (ticker: string) =>
   );
 }
 
-// --- Main Page Logic ---
-
+// --- Main Page Content ---
 function TestAppleOneContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -518,7 +542,6 @@ function TestAppleOneContent() {
     result: PersonaResult;
   } | null>(null);
 
-  // Sync ticker with URL
   useEffect(() => {
     const urlTicker = searchParams.get('ticker');
     if (urlTicker) {
@@ -539,17 +562,16 @@ function TestAppleOneContent() {
     }
   };
 
-  // Browser back button handling
   useEffect(() => {
     const handlePopState = () => {
       const urlTicker = new URLSearchParams(window.location.search).get('ticker');
       setTicker(urlTicker || '');
     };
+
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Fetch Data Logic
   useEffect(() => {
     if (!ticker) {
       setData(null);
@@ -592,8 +614,7 @@ function TestAppleOneContent() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-20">
       <div className="max-w-md mx-auto">
-        {/* Header */}
-        <div className="bg-white py-4 px-4 shadow-sm sticky top-0 z-10">
+        <div className="bg-white py-4 px-4 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <button
               onClick={() => router.back()}
@@ -603,9 +624,7 @@ function TestAppleOneContent() {
               <ChevronLeft className="w-6 h-6 text-gray-700" />
             </button>
 
-            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-600">
-              Guru Pick
-            </h1>
+            <h1 className="text-2xl font-bold">Guru Pick</h1>
 
             <button
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -618,9 +637,8 @@ function TestAppleOneContent() {
           <TickerAutocomplete value={ticker} onValueChange={updateTicker} />
         </div>
 
-        {/* Error Message */}
         {error && (
-          <div className="mx-4 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg animate-in fade-in">
+          <div className="mx-4 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex items-start">
               <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 mr-3 flex-shrink-0" />
               <div className="flex-1">
@@ -629,7 +647,7 @@ function TestAppleOneContent() {
                 <button
                   onClick={() => {
                     setError(null);
-                    setTicker(ticker); // Retry
+                    setTicker(ticker);
                   }}
                   className="mt-3 text-sm font-medium text-red-800 hover:text-red-900 underline"
                 >
@@ -640,17 +658,14 @@ function TestAppleOneContent() {
           </div>
         )}
 
-        {/* Content Area */}
         {!ticker ? (
           <WelcomeScreen onSelectTicker={updateTicker} />
         ) : loading ? (
-          <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <div className="w-8 h-8 border-4 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
-            <div className="text-gray-500 font-medium">Analyzing market data...</div>
+          <div className="flex items-center justify-center py-32">
+            <div className="text-gray-500">Loading...</div>
           </div>
         ) : data ? (
-          <div className="p-4 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Verdict Summary */}
+          <div className="p-4 space-y-4">
             <VerdictSummary
               buyCount={
                 data.summary.opinion_breakdown.strong_buy + data.summary.opinion_breakdown.buy
@@ -659,32 +674,23 @@ function TestAppleOneContent() {
               holdCount={data.summary.opinion_breakdown.hold}
             />
 
-            {/* Price Info */}
-            <div className="text-center py-4 border-y border-gray-200 bg-white/50 rounded-xl backdrop-blur-sm">
+            <div className="text-center py-4 border-y border-gray-200 bg-white/50 rounded-xl">
               <span className="text-sm text-gray-500">{data.ticker} is currently</span>
-              <span className="text-2xl font-bold text-gray-900 ml-2">
+              <span className="text-lg font-bold text-gray-900 ml-2">
                 ${data.meta.current_price.toFixed(2)}
               </span>
             </div>
 
-            {/* Total Score Gauge */}
             <GaugeChart score={data.summary.total_score} />
 
-            {/* Guru Grid (The 7 Legends) */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4 ml-1">
-                7 Legends Analysis
-              </h3>
-              <GuruGrid
-                personas={PERSONAS}
-                data={data}
-                onCardClick={(persona, result) => setSelectedPersona({ persona, result })}
-              />
-            </div>
+            <GuruGrid
+              personas={PERSONAS}
+              data={data}
+              onCardClick={(persona, result) => setSelectedPersona({ persona, result })}
+            />
           </div>
         ) : null}
 
-        {/* Detail Modal */}
         {selectedPersona && (
           <BottomSheet
             isOpen={!!selectedPersona}
@@ -698,13 +704,12 @@ function TestAppleOneContent() {
   );
 }
 
-// Wrapper for Suspense
 export default function TestAppleOnePage() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center min-h-screen bg-slate-50">
-          <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+          <div className="text-gray-500">Loading...</div>
         </div>
       }
     >
